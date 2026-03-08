@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qoder 安装 OpenClaw 教程 - OpenClaw 知识库</title>
+  <style>
+    :root { --primary: #6366f1; --secondary: #ec4899; --accent: #8b5cf6; --bg: #0f172a; --text: #1e293b; --card-bg: rgba(255,255,255,0.98); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); background-size: 400% 400%; animation: gradient 15s ease infinite; min-height: 100vh; color: var(--text); line-height: 1.8; }
+    @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .navbar { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; }
+    .navbar-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .navbar-brand { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+    .navbar-nav { display: flex; gap: 2.5rem; list-style: none; }
+    .navbar-nav a { color: #64748b; text-decoration: none; font-weight: 600; }
+    .navbar-nav a:hover { color: var(--primary); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+    .hero { text-align: center; color: white; margin-bottom: 3rem; }
+    .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 1rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .hero p { font-size: 1.3rem; opacity: 0.95; max-width: 800px; margin: 0 auto; }
+    .content { background: var(--card-bg); border-radius: 24px; padding: 4rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); margin-bottom: 3rem; }
+    .content h2 { color: var(--primary); font-size: 2rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--primary); }
+    .content h3 { color: var(--secondary); font-size: 1.5rem; margin: 2rem 0 1rem; }
+    .content p, .content li { color: #475569; margin: 1rem 0; }
+    .content ul, .content ol { margin: 1rem 0 1rem 2rem; }
+    .step-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-left: 5px solid var(--primary); padding: 2rem; border-radius: 12px; margin: 2rem 0; }
+    .step-number { display: inline-block; background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 900; margin-right: 1rem; }
+    .prompt-box { background: #1e293b; color: #e2e8f0; padding: 2rem; border-radius: 12px; margin: 1.5rem 0; border: 2px solid var(--primary); }
+    .prompt-box h4 { color: var(--secondary); margin-bottom: 1rem; font-size: 1.2rem; }
+    .prompt-box pre { white-space: pre-wrap; font-family: 'Courier New', monospace; line-height: 1.6; }
+    .info-box { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 5px solid #f59e0b; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+    .tip-box { background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-left: 5px solid #10b981; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 12px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.5); }
+    .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+    footer { background: rgba(0,0,0,0.3); color: white; text-align: center; padding: 3rem 2rem; margin-top: 4rem; }
+    footer a { color: white; text-decoration: underline; }
+    @media (max-width: 768px) { .navbar-nav { display: none; } .hero h1 { font-size: 2rem; } .content { padding: 2rem; } }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="navbar-brand">🐾 OpenClaw</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="docs.html">文档中心</a></li>
+        <li><a href="skills.html">Skills 示例</a></li>
+        <li><a href="mindmaps.html">知识脑图</a></li>
+        <li><a href="videos.html">视频资源</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="hero">
+      <h1>🤖 通过 Qoder 安装 OpenClaw</h1>
+      <p>完整教程 + 提示词，让 AI 助手帮你自动化安装</p>
+    </div>
+    
+    <div class="content">
+      <div class="info-box">
+        <strong>⏱️ 学习时长：</strong>20 分钟 &nbsp;|&nbsp; 
+        <strong>⭐ 难度等级：</strong>简单 &nbsp;|&nbsp; 
+        <strong>🛠️ 前置要求：</strong>已安装 Qoder
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">1</span>准备工作</h2>
+        <p>在开始之前，请确保：</p>
+        <ul>
+          <li>✅ 已安装 Qoder（代码编辑器）</li>
+          <li>✅ Qoder 已配置 AI 助手（推荐通义千问）</li>
+          <li>✅ 电脑已安装 Node.js（v18+）</li>
+          <li>✅ 有稳定的网络连接</li>
+        </ul>
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">2</span>打开 Qoder 并启动 AI 助手</h2>
+        <p>在 Qoder 中打开 AI 助手面板（通常快捷键 <code>Ctrl+Shift+P</code> 或 <code>Cmd+Shift+P</code>）</p>
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">3</span>发送安装提示词</h2>
+        <p>复制以下完整提示词发送给 Qoder 的 AI 助手：</p>
+        
+        <div class="prompt-box">
+          <h4>📋 完整提示词</h4>
+          <pre>请帮我安装 OpenClaw（AI 助手框架），按照以下步骤执行：
+
+## 步骤 1: 创建项目目录
+在终端执行：
+```bash
+mkdir openclaw-workspace
+cd openclaw-workspace
+```
+
+## 步骤 2: 克隆 OpenClaw 仓库
+```bash
+git clone https://github.com/openclaw/openclaw.git
+cd openclaw
+```
+
+## 步骤 3: 安装依赖
+```bash
+npm install
+```
+
+## 步骤 4: 创建环境变量文件
+创建 .env 文件，内容：
+```
+DASHSCOPE_API_KEY=请替换为你的通义千问 API Key
+```
+
+## 步骤 5: 配置渠道
+创建 config.yaml 文件，内容：
+```yaml
+gateway:
+  port: 3000
+  host: 0.0.0.0
+
+channels:
+  telegram:
+    - token: "请替换为你的 Telegram Bot Token"
+      name: "OpenClaw Bot"
+      model: "qwen-plus"
+      thinking: "on"
+      systemPrompt: |
+        你是一位专业、友好、高效的 AI 助手。
+        你擅长用简洁清晰的语言解答问题。
+
+models:
+  qwen-plus:
+    provider: dashscope
+    apiKey: ${DASHSCOPE_API_KEY}
+    model: qwen-plus
+    maxTokens: 2000
+```
+
+## 步骤 6: 启动 OpenClaw
+```bash
+npm start
+```
+
+## 步骤 7: 验证安装
+请告诉我如何验证 OpenClaw 是否安装成功，以及下一步该做什么。
+
+请一步步执行上述命令，并在每一步完成后告诉我结果。如果遇到错误，请详细说明如何修复。</pre>
+        </div>
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">4</span>等待 AI 执行</h2>
+        <p>Qoder 的 AI 助手会自动：</p>
+        <ul>
+          <li>✅ 创建项目目录</li>
+          <li>✅ 克隆 Git 仓库</li>
+          <li>✅ 安装 npm 依赖</li>
+          <li>✅ 创建配置文件</li>
+          <li>✅ 启动 OpenClaw</li>
+        </ul>
+        
+        <div class="tip-box">
+          <strong>💡 提示：</strong>如果 AI 询问 API Key 或 Bot Token，请提供真实值。可以从以下地址获取：
+          <ul>
+            <li>通义千问 API Key: https://dashscope.console.aliyun.com/</li>
+            <li>Telegram Bot Token: 在 Telegram 中搜索 @BotFather</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">5</span>验证安装</h2>
+        <p>安装完成后，AI 会显示类似输出：</p>
+        <div class="prompt-box">
+          <pre>[Gateway] Starting OpenClaw Gateway...
+[Channels] Loading channel plugins...
+[Telegram] Bot "OpenClaw Bot" started successfully
+[Gateway] Gateway is running! Listening for messages...</pre>
+        </div>
+        <p>看到 <code>Gateway is running!</code> 说明安装成功！</p>
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">6</span>测试机器人</h2>
+        <p>在 Telegram 中找到你的机器人，发送：</p>
+        <div class="prompt-box">
+          <pre>你好</pre>
+        </div>
+        <p><strong>预期回复</strong>：你好！我是你的 OpenClaw 助手，有什么可以帮你的吗？</p>
+      </div>
+      
+      <h2>🎯 后续步骤</h2>
+      <p>安装成功后，建议继续学习：</p>
+      <ul>
+        <li><a href="docs/02-快速开始.html" style="color: var(--primary);">🚀 快速开始</a> - 发送第一条消息</li>
+        <li><a href="docs/03-配置详解.html" style="color: var(--primary);">⚙️ 配置详解</a> - 完全掌握配置</li>
+        <li><a href="docs/05-Skills 开发.html" style="color: var(--primary);">🛠️ Skills 开发</a> - 创建自定义技能</li>
+      </ul>
+      
+      <h2>🐛 常见问题</h2>
+      
+      <h3>Q1: Qoder 无法执行终端命令</h3>
+      <p>解决方法：在 Qoder 设置中启用终端权限，或手动在终端执行命令。</p>
+      
+      <h3>Q2: npm install 失败</h3>
+      <p>解决方法：检查 Node.js 版本（需要 v18+），或尝试 <code>npm install --legacy-peer-deps</code></p>
+      
+      <h3>Q3: Gateway 启动失败</h3>
+      <p>检查项：</p>
+      <ul>
+        <li>端口 3000 是否被占用</li>
+        <li>.env 文件是否存在</li>
+        <li>API Key 是否正确</li>
+      </ul>
+      
+      <div class="nav-buttons">
+        <a href="docs/01-安装指南.html" class="btn btn-secondary">← 传统安装方法</a>
+        <a href="docs/02-快速开始.html" class="btn">快速开始 →</a>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>🐾 OpenClaw 知识库 | MIT License</p>
+    <p style="margin-top: 1rem;">
+      <a href="https://github.com/cchen1-08/openclaw-kb" target="_blank">GitHub</a> · 
+      <a href="https://docs.openclaw.ai" target="_blank">官方文档</a> · 
+      <a href="https://discord.com/invite/clawd" target="_blank">Discord 社区</a>
+    </p>
+  </footer>
+</body>
+</html>
