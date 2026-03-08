@@ -3,69 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💬 提示词工程 - OpenClaw 知识库</title>
+  <title>提示词工程 - OpenClaw 知识库</title>
   <style>
-    :root { --primary: #2563eb; --secondary: #64748b; --bg: #f1f5f9; --card-bg: #ffffff; --text: #0f172a; }
+    :root { --primary: #6366f1; --secondary: #ec4899; --bg: #0f172a; --text: #1e293b; --card-bg: rgba(255,255,255,0.98); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: var(--text); line-height: 1.6; }
-    .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
-    .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .navbar-brand { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-    .navbar-nav { display: flex; gap: 2rem; list-style: none; }
-    .navbar-nav a { color: var(--secondary); text-decoration: none; font-weight: 500; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); background-size: 400% 400%; animation: gradient 15s ease infinite; min-height: 100vh; color: var(--text); line-height: 1.8; }
+    @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .navbar { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; }
+    .navbar-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .navbar-brand { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+    .navbar-nav { display: flex; gap: 2.5rem; list-style: none; }
+    .navbar-nav a { color: #64748b; text-decoration: none; font-weight: 600; }
     .navbar-nav a:hover { color: var(--primary); }
     .container { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
-    .doc-content { background: var(--card-bg); border-radius: 16px; padding: 3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .doc-content h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 3px solid var(--primary); }
-    .doc-content h2 { color: var(--primary); font-size: 1.8rem; margin: 2.5rem 0 1rem; }
-    .doc-content h3 { color: var(--text); font-size: 1.4rem; margin: 2rem 0 0.8rem; }
-    .doc-content p { margin: 1rem 0; color: #475569; font-size: 1.05rem; }
-    .doc-content ul, .doc-content ol { margin: 1rem 0; padding-left: 2rem; color: #475569; }
-    .doc-content code { background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9em; color: #e11d48; }
-    .doc-content pre { background: #1e293b; color: #f1f5f9; padding: 1.5rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }
-    .doc-content pre code { background: transparent; color: inherit; padding: 0; }
-    .doc-content blockquote { border-left: 4px solid var(--primary); padding-left: 1.5rem; margin: 1.5rem 0; color: var(--secondary); font-style: italic; }
-    .doc-content a { color: var(--primary); text-decoration: none; }
-    .doc-content a:hover { text-decoration: underline; }
-    .doc-nav { margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-between; }
-    .doc-nav a { color: var(--primary); font-weight: 600; }
-    footer { background: rgba(0,0,0,0.2); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+    .hero { text-align: center; color: white; margin-bottom: 3rem; }
+    .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 1rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .content { background: var(--card-bg); border-radius: 24px; padding: 4rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .content h2 { color: var(--primary); font-size: 2rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--primary); }
+    .content h3 { color: var(--secondary); font-size: 1.5rem; margin: 2rem 0 1rem; }
+    .content p, .content li { color: #475569; margin: 1rem 0; }
+    .info-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+    .code-box { background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; overflow-x: auto; font-family: monospace; white-space: pre; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 12px; text-decoration: none; font-weight: 700; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.5); }
+    .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+    footer { background: rgba(0,0,0,0.3); color: white; text-align: center; padding: 3rem 2rem; margin-top: 4rem; }
     footer a { color: white; text-decoration: underline; }
-    @media (max-width: 768px) { .navbar-nav { display: none; } .doc-content { padding: 2rem 1.5rem; } }
+    @media (max-width: 768px) { .navbar-nav { display: none; } .hero h1 { font-size: 2rem; } .content { padding: 2rem; } }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="navbar-content">
-      <a href="../index.html" class="navbar-brand">🐾 OpenClaw 知识库</a>
-      <ul class="navbar-nav">
-        <li><a href="../index.html">首页</a></li>
-        <li><a href="docs.html">文档中心</a></li>
-        <li><a href="../skills.html">Skills 示例</a></li>
-        <li><a href="../mindmaps.html">知识脑图</a></li>
-        <li><a href="../videos.html">视频资源</a></li>
-      </ul>
-    </div>
-  </nav>
+  <nav class="navbar"><div class="navbar-container"><a href="../index.html" class="navbar-brand">🐾 OpenClaw</a><ul class="navbar-nav"><li><a href="../index.html">首页</a></li><li><a href="../docs.html">文档中心</a></li><li><a href="../skills.html">Skills 示例</a></li><li><a href="../mindmaps.html">知识脑图</a></li><li><a href="../videos.html">视频资源</a></li></ul></div></nav>
   <div class="container">
-    <article class="doc-content">
-      <h1>💬 提示词工程</h1>
-      <p style="font-size: 1.2rem; color: var(--secondary); margin-bottom: 2rem;">⏱️ 1 小时|难度 ⭐⭐</p>
-      <blockquote><p>设计更好的提示词，获得更好的 AI 回复质量</p></blockquote>
-      <div style="margin-top: 2rem; padding: 2rem; background: #f1f5f9; border-radius: 8px; text-align: center;">
-        <h2 style="color: var(--primary);">📝 文档内容</h2>
-        <p>本文档完整内容请查看 Markdown 源文件或等待后续完善</p>
-        <p style="margin-top: 1rem;"><a href="04-提示词工程.html" style="color: var(--primary);">查看 Markdown 原文 →</a></p>
+    <div class="hero"><h1>💬 提示词工程</h1><p>设计更好的提示词，获得更好的 AI 回复质量</p></div>
+    <div class="content">
+      <div class="info-box"><strong>⏱️ 学习时长：</strong>1 小时 &nbsp;|&nbsp; <strong>⭐ 难度等级：</strong>中等</div>
+      <h2>🎯 什么是提示词</h2>
+      <p>提示词（Prompt）是用户发送给 AI 的指令和上下文，决定了 AI 的回复质量和风格。</p>
+      
+      <h2>📝 提示词基本结构</h2>
+      <div class="code-box"># 好的提示词结构
+角色定义 + 任务描述 + 约束条件 + 示例（可选）</div>
+      
+      <h2>🎭 角色扮演技巧</h2>
+      <div class="code-box"># 示例：专业助手
+你是一位专业的 Python 开发工程师，擅长：
+1. 编写清晰、可维护的代码
+2. 遵循 PEP8 规范
+3. 编写单元测试
+4. 性能优化
+
+请用专业的方式回答我的问题。</div>
+      
+      <h2>🔗 思维链（Chain of Thought）</h2>
+      <div class="code-box"># 示例：数学问题
+请一步步思考并解答：
+1. 理解问题
+2. 列出已知条件
+3. 选择合适的公式
+4. 逐步计算
+5. 验证答案
+
+问题：小明有 5 个苹果，给了小红 2 个，又买了 3 个，现在有几个？</div>
+      
+      <h2>📚 少样本学习（Few-Shot）</h2>
+      <div class="code-box"># 示例：翻译任务
+将中文翻译成英文：
+
+例子 1:
+中文：你好
+英文：Hello
+
+例子 2:
+中文：谢谢
+英文：Thank you
+
+现在翻译：
+中文：再见
+英文：</div>
+      
+      <h2>⚡ 提示词优化技巧</h2>
+      <h3>1. 明确具体</h3>
+      <div class="code-box"># ❌ 模糊
+帮我写代码
+
+# ✅ 具体
+用 Python 写一个函数，输入是列表，输出是列表中的最大值</div>
+      
+      <h3>2. 提供上下文</h3>
+      <div class="code-box"># ❌ 缺少上下文
+这个怎么改？
+
+# ✅ 有上下文
+我在开发一个电商网站，用户登录功能有问题。
+代码如下：[粘贴代码]
+错误信息是：[粘贴错误]</div>
+      
+      <h3>3. 指定格式</h3>
+      <div class="code-box">请用 JSON 格式输出，包含以下字段：
+- name: 姓名
+- age: 年龄
+- city: 城市</div>
+      
+      <h2>🚀 高级技巧</h2>
+      <h3>1. 分步指令</h3>
+      <div class="code-box">请按以下步骤完成：
+1. 分析问题
+2. 提出 3 个解决方案
+3. 对比优缺点
+4. 推荐最佳方案</div>
+      
+      <h3>2. 自我反思</h3>
+      <div class="code-box">请回答后，再检查一遍答案：
+- 是否有逻辑错误？
+- 是否有遗漏？
+- 是否有更好的方案？</div>
+      
+      <h2>💡 实际应用示例</h2>
+      <h3>代码审查</h3>
+      <div class="code-box">你是一位资深代码审查工程师，请审查以下代码：
+1. 找出潜在 Bug
+2. 检查性能问题
+3. 评估代码可读性
+4. 提出改进建议
+
+[粘贴代码]</div>
+      
+      <h3>文档编写</h3>
+      <div class="code-box">请为以下函数编写 API 文档，包含：
+- 功能描述
+- 参数说明
+- 返回值
+- 使用示例
+- 注意事项
+
+[粘贴代码]</div>
+      
+      <div class="nav-buttons">
+        <a href="03-配置详解.html" class="btn btn-secondary">← 配置详解</a>
+        <a href="05-Skills 开发.html" class="btn">Skills 开发 →</a>
       </div>
-      <div class="doc-nav">
-        <a href="../docs.html">← 返回文档中心</a>
-        <a href="../index.html">返回首页 →</a>
-      </div>
-    </article>
+    </div>
   </div>
-  <footer>
-    <p>🐾 OpenClaw 知识库 | MIT License</p>
-    <p style="margin-top: 0.5rem;"><a href="https://github.com/cchen1-08/openclaw-kb">GitHub</a> · <a href="https://docs.openclaw.ai">官方文档</a> · <a href="https://discord.com/invite/clawd">Discord 社区</a></p>
-  </footer>
+  <footer><p>🐾 OpenClaw 知识库 | MIT License</p></footer>
 </body>
 </html>

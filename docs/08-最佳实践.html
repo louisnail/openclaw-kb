@@ -3,69 +3,139 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🏆 最佳实践 - OpenClaw 知识库</title>
+  <title>最佳实践 - OpenClaw 知识库</title>
   <style>
-    :root { --primary: #2563eb; --secondary: #64748b; --bg: #f1f5f9; --card-bg: #ffffff; --text: #0f172a; }
+    :root { --primary: #6366f1; --secondary: #ec4899; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: var(--text); line-height: 1.6; }
-    .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
-    .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .navbar-brand { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-    .navbar-nav { display: flex; gap: 2rem; list-style: none; }
-    .navbar-nav a { color: var(--secondary); text-decoration: none; font-weight: 500; }
-    .navbar-nav a:hover { color: var(--primary); }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); background-size: 400% 400%; animation: gradient 15s ease infinite; min-height: 100vh; color: #1e293b; line-height: 1.8; }
+    @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .navbar { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 1rem 0; position: sticky; top: 0; }
+    .navbar-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .navbar-brand { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+    .navbar-nav { display: flex; gap: 2.5rem; list-style: none; }
+    .navbar-nav a { color: #64748b; text-decoration: none; font-weight: 600; }
     .container { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
-    .doc-content { background: var(--card-bg); border-radius: 16px; padding: 3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .doc-content h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 3px solid var(--primary); }
-    .doc-content h2 { color: var(--primary); font-size: 1.8rem; margin: 2.5rem 0 1rem; }
-    .doc-content h3 { color: var(--text); font-size: 1.4rem; margin: 2rem 0 0.8rem; }
-    .doc-content p { margin: 1rem 0; color: #475569; font-size: 1.05rem; }
-    .doc-content ul, .doc-content ol { margin: 1rem 0; padding-left: 2rem; color: #475569; }
-    .doc-content code { background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9em; color: #e11d48; }
-    .doc-content pre { background: #1e293b; color: #f1f5f9; padding: 1.5rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }
-    .doc-content pre code { background: transparent; color: inherit; padding: 0; }
-    .doc-content blockquote { border-left: 4px solid var(--primary); padding-left: 1.5rem; margin: 1.5rem 0; color: var(--secondary); font-style: italic; }
-    .doc-content a { color: var(--primary); text-decoration: none; }
-    .doc-content a:hover { text-decoration: underline; }
-    .doc-nav { margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-between; }
-    .doc-nav a { color: var(--primary); font-weight: 600; }
-    footer { background: rgba(0,0,0,0.2); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+    .hero { text-align: center; color: white; margin-bottom: 3rem; }
+    .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 1rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .content { background: rgba(255,255,255,0.98); border-radius: 24px; padding: 4rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .content h2 { color: var(--primary); font-size: 2rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--primary); }
+    .content h3 { color: var(--secondary); font-size: 1.5rem; margin: 2rem 0 1rem; }
+    .content p, .content li { color: #475569; margin: 1rem 0; }
+    .info-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 12px; text-decoration: none; font-weight: 700; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.5); }
+    .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+    footer { background: rgba(0,0,0,0.3); color: white; text-align: center; padding: 3rem 2rem; margin-top: 4rem; }
     footer a { color: white; text-decoration: underline; }
-    @media (max-width: 768px) { .navbar-nav { display: none; } .doc-content { padding: 2rem 1.5rem; } }
+    @media (max-width: 768px) { .navbar-nav { display: none; } .hero h1 { font-size: 2rem; } .content { padding: 2rem; } }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="navbar-content">
-      <a href="../index.html" class="navbar-brand">🐾 OpenClaw 知识库</a>
-      <ul class="navbar-nav">
-        <li><a href="../index.html">首页</a></li>
-        <li><a href="docs.html">文档中心</a></li>
-        <li><a href="../skills.html">Skills 示例</a></li>
-        <li><a href="../mindmaps.html">知识脑图</a></li>
-        <li><a href="../videos.html">视频资源</a></li>
-      </ul>
-    </div>
-  </nav>
+  <nav class="navbar"><div class="navbar-container"><a href="../index.html" class="navbar-brand">🐾 OpenClaw</a><ul class="navbar-nav"><li><a href="../index.html">首页</a></li><li><a href="../docs.html">文档中心</a></li><li><a href="../skills.html">Skills 示例</a></li><li><a href="../mindmaps.html">知识脑图</a></li><li><a href="../videos.html">视频资源</a></li></ul></div></nav>
   <div class="container">
-    <article class="doc-content">
-      <h1>🏆 最佳实践</h1>
-      <p style="font-size: 1.2rem; color: var(--secondary); margin-bottom: 2rem;">⏱️ 1 小时|难度 ⭐⭐</p>
-      <blockquote><p>来自社区的经验总结，架构、开发、运维全涵盖</p></blockquote>
-      <div style="margin-top: 2rem; padding: 2rem; background: #f1f5f9; border-radius: 8px; text-align: center;">
-        <h2 style="color: var(--primary);">📝 文档内容</h2>
-        <p>本文档完整内容请查看 Markdown 源文件或等待后续完善</p>
-        <p style="margin-top: 1rem;"><a href="08-最佳实践.html" style="color: var(--primary);">查看 Markdown 原文 →</a></p>
+    <div class="hero"><h1>🏆 最佳实践</h1><p>来自社区的经验总结，架构、开发、运维全涵盖</p></div>
+    <div class="content">
+      <div class="info-box"><strong>⏱️ 学习时长：</strong>1 小时 &nbsp;|&nbsp; <strong>⭐ 难度等级：</strong>中等</div>
+      <h2>🏗️ 架构设计</h2>
+      <h3>模块化设计</h3>
+      <ul>
+        <li>Gateway 核心服务独立</li>
+        <li>Skills 插件化开发</li>
+        <li>渠道接入解耦</li>
+        <li>配置与代码分离</li>
+      </ul>
+      
+      <h2>💻 开发规范</h2>
+      <h3>代码风格</h3>
+      <ul>
+        <li>使用 ESLint + Prettier</li>
+        <li>遵循 Airbnb 代码规范</li>
+        <li>编写清晰的注释</li>
+        <li>使用有意义的变量名</li>
+      </ul>
+      
+      <h3>错误处理</h3>
+      <ul>
+        <li>使用 try-catch 捕获异常</li>
+        <li>记录详细错误日志</li>
+        <li>提供友好的错误提示</li>
+        <li>实现降级方案</li>
+      </ul>
+      
+      <h2>⚡ 性能优化</h2>
+      <h3>响应速度</h3>
+      <ul>
+        <li>使用流式响应（Streaming）</li>
+        <li>优化提示词长度</li>
+        <li>缓存常用查询结果</li>
+        <li>异步处理耗时任务</li>
+      </ul>
+      
+      <h3>资源管理</h3>
+      <ul>
+        <li>限制并发 Session 数量</li>
+        <li>设置 Session 超时时间</li>
+        <li>定期清理过期数据</li>
+        <li>监控内存和 CPU 使用</li>
+      </ul>
+      
+      <h2>🔒 安全建议</h2>
+      <h3>密钥管理</h3>
+      <ul>
+        <li>使用.env 文件存储密钥</li>
+        <li>不要提交密钥到 Git</li>
+        <li>定期轮换 API Key</li>
+        <li>使用最小权限原则</li>
+      </ul>
+      
+      <h3>数据保护</h3>
+      <ul>
+        <li>不存储敏感用户数据</li>
+        <li>加密重要配置文件</li>
+        <li>定期备份 MEMORY.md</li>
+        <li>群聊不加载个人记忆</li>
+      </ul>
+      
+      <h2>🔧 运维部署</h2>
+      <h3>生产环境</h3>
+      <ul>
+        <li>使用 PM2 管理进程</li>
+        <li>配置日志轮转</li>
+        <li>设置健康检查</li>
+        <li>实现自动重启</li>
+      </ul>
+      
+      <h3>监控告警</h3>
+      <ul>
+        <li>监控 API 调用失败率</li>
+        <li>监控 Token 使用量</li>
+        <li>监控 Session 数量</li>
+        <li>设置异常告警</li>
+      </ul>
+      
+      <h2>🐛 故障排查</h2>
+      <h3>常见问题</h3>
+      <ul>
+        <li>Gateway 无法启动 → 检查端口占用</li>
+        <li>渠道无响应 → 检查 Token 配置</li>
+        <li>AI 回复慢 → 检查网络和模型</li>
+        <li>记忆不生效 → 检查文件权限</li>
+      </ul>
+      
+      <h2>📚 学习资源</h2>
+      <ul>
+        <li><a href="../videos.html">📺 视频教程</a> - B 站精选</li>
+        <li><a href="../mindmaps.html">🧠 知识脑图</a> - 核心概念</li>
+        <li><a href="../skills.html">💻 Skills 示例</a> - 代码参考</li>
+      </ul>
+      
+      <div class="nav-buttons">
+        <a href="07-Token 优化.html" class="btn btn-secondary">← Token 优化</a>
+        <a href="../docs.html" class="btn">返回文档中心</a>
       </div>
-      <div class="doc-nav">
-        <a href="../docs.html">← 返回文档中心</a>
-        <a href="../index.html">返回首页 →</a>
-      </div>
-    </article>
+    </div>
   </div>
-  <footer>
-    <p>🐾 OpenClaw 知识库 | MIT License</p>
-    <p style="margin-top: 0.5rem;"><a href="https://github.com/cchen1-08/openclaw-kb">GitHub</a> · <a href="https://docs.openclaw.ai">官方文档</a> · <a href="https://discord.com/invite/clawd">Discord 社区</a></p>
-  </footer>
+  <footer><p>🐾 OpenClaw 知识库 | MIT License</p></footer>
 </body>
 </html>

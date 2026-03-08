@@ -3,69 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⏰ 定时任务 - OpenClaw 知识库</title>
+  <title>定时任务 - OpenClaw 知识库</title>
   <style>
-    :root { --primary: #2563eb; --secondary: #64748b; --bg: #f1f5f9; --card-bg: #ffffff; --text: #0f172a; }
+    :root { --primary: #6366f1; --secondary: #ec4899; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: var(--text); line-height: 1.6; }
-    .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
-    .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .navbar-brand { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-    .navbar-nav { display: flex; gap: 2rem; list-style: none; }
-    .navbar-nav a { color: var(--secondary); text-decoration: none; font-weight: 500; }
-    .navbar-nav a:hover { color: var(--primary); }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); background-size: 400% 400%; animation: gradient 15s ease infinite; min-height: 100vh; color: #1e293b; line-height: 1.8; }
+    @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .navbar { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 1rem 0; position: sticky; top: 0; }
+    .navbar-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .navbar-brand { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+    .navbar-nav { display: flex; gap: 2.5rem; list-style: none; }
+    .navbar-nav a { color: #64748b; text-decoration: none; font-weight: 600; }
     .container { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
-    .doc-content { background: var(--card-bg); border-radius: 16px; padding: 3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .doc-content h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 3px solid var(--primary); }
-    .doc-content h2 { color: var(--primary); font-size: 1.8rem; margin: 2.5rem 0 1rem; }
-    .doc-content h3 { color: var(--text); font-size: 1.4rem; margin: 2rem 0 0.8rem; }
-    .doc-content p { margin: 1rem 0; color: #475569; font-size: 1.05rem; }
-    .doc-content ul, .doc-content ol { margin: 1rem 0; padding-left: 2rem; color: #475569; }
-    .doc-content code { background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9em; color: #e11d48; }
-    .doc-content pre { background: #1e293b; color: #f1f5f9; padding: 1.5rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }
-    .doc-content pre code { background: transparent; color: inherit; padding: 0; }
-    .doc-content blockquote { border-left: 4px solid var(--primary); padding-left: 1.5rem; margin: 1.5rem 0; color: var(--secondary); font-style: italic; }
-    .doc-content a { color: var(--primary); text-decoration: none; }
-    .doc-content a:hover { text-decoration: underline; }
-    .doc-nav { margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-between; }
-    .doc-nav a { color: var(--primary); font-weight: 600; }
-    footer { background: rgba(0,0,0,0.2); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+    .hero { text-align: center; color: white; margin-bottom: 3rem; }
+    .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 1rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .content { background: rgba(255,255,255,0.98); border-radius: 24px; padding: 4rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .content h2 { color: var(--primary); font-size: 2rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--primary); }
+    .content h3 { color: var(--secondary); font-size: 1.5rem; margin: 2rem 0 1rem; }
+    .content p, .content li { color: #475569; margin: 1rem 0; }
+    .info-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+    .code-box { background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; overflow-x: auto; font-family: monospace; white-space: pre; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 12px; text-decoration: none; font-weight: 700; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.5); }
+    .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+    footer { background: rgba(0,0,0,0.3); color: white; text-align: center; padding: 3rem 2rem; margin-top: 4rem; }
     footer a { color: white; text-decoration: underline; }
-    @media (max-width: 768px) { .navbar-nav { display: none; } .doc-content { padding: 2rem 1.5rem; } }
+    @media (max-width: 768px) { .navbar-nav { display: none; } .hero h1 { font-size: 2rem; } .content { padding: 2rem; } }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="navbar-content">
-      <a href="../index.html" class="navbar-brand">🐾 OpenClaw 知识库</a>
-      <ul class="navbar-nav">
-        <li><a href="../index.html">首页</a></li>
-        <li><a href="docs.html">文档中心</a></li>
-        <li><a href="../skills.html">Skills 示例</a></li>
-        <li><a href="../mindmaps.html">知识脑图</a></li>
-        <li><a href="../videos.html">视频资源</a></li>
-      </ul>
-    </div>
-  </nav>
+  <nav class="navbar"><div class="navbar-container"><a href="../index.html" class="navbar-brand">🐾 OpenClaw</a><ul class="navbar-nav"><li><a href="../index.html">首页</a></li><li><a href="../docs.html">文档中心</a></li><li><a href="../skills.html">Skills 示例</a></li><li><a href="../mindmaps.html">知识脑图</a></li><li><a href="../videos.html">视频资源</a></li></ul></div></nav>
   <div class="container">
-    <article class="doc-content">
-      <h1>⏰ 定时任务</h1>
-      <p style="font-size: 1.2rem; color: var(--secondary); margin-bottom: 2rem;">⏱️ 45 分钟|难度 ⭐⭐</p>
-      <blockquote><p>配置 Cron Jobs，让 AI 自动执行定时任务</p></blockquote>
-      <div style="margin-top: 2rem; padding: 2rem; background: #f1f5f9; border-radius: 8px; text-align: center;">
-        <h2 style="color: var(--primary);">📝 文档内容</h2>
-        <p>本文档完整内容请查看 Markdown 源文件或等待后续完善</p>
-        <p style="margin-top: 1rem;"><a href="06-定时任务.html" style="color: var(--primary);">查看 Markdown 原文 →</a></p>
+    <div class="hero"><h1>⏰ 定时任务</h1><p>配置 Cron Jobs，让 AI 自动执行定时任务</p></div>
+    <div class="content">
+      <div class="info-box"><strong>⏱️ 学习时长：</strong>45 分钟 &nbsp;|&nbsp; <strong>⭐ 难度等级：</strong>中等</div>
+      <h2>📅 三种调度方式</h2>
+      
+      <h3>1. at - 一次性任务</h3>
+      <div class="code-box"># 在指定时间执行一次
+schedule:
+  kind: at
+  atMs: 1709884800000  # Unix 时间戳（毫秒）</div>
+      
+      <h3>2. every - 周期性任务</h3>
+      <div class="code-box"># 每隔一段时间执行
+schedule:
+  kind: every
+  everyMs: 3600000  # 1 小时（毫秒）</div>
+      
+      <h3>3. cron - Cron 表达式</h3>
+      <div class="code-box"># 灵活的调度
+schedule:
+  kind: cron
+  expr: "0 9 * * *"  # 每天早上 9 点
+  tz: "Asia/Shanghai"</div>
+      
+      <h2>💡 实际应用</h2>
+      <h3>每日晨报</h3>
+      <div class="code-box">schedule:
+  kind: cron
+  expr: "0 8 * * *"  # 每天早上 8 点
+
+payload:
+  kind: systemEvent
+  text: "请生成今日晨报，包含天气、新闻摘要、日程安排"</div>
+      
+      <h3>周报提醒</h3>
+      <div class="code-box">schedule:
+  kind: cron
+  expr: "0 18 * * 5"  # 每周五下午 6 点
+
+payload:
+  kind: systemEvent
+  text: "请提醒我写周报，并总结本周工作"</div>
+      
+      <h3>定时喝水提醒</h3>
+      <div class="code-box">schedule:
+  kind: every
+  everyMs: 3600000  # 每小时
+
+payload:
+  kind: systemEvent
+  text: "💧 喝水时间到了！记得补充水分哦~"</div>
+      
+      <h2>🔧 配置方法</h2>
+      <p>通过 cron job 配置定时任务，让 AI 在指定时间自动执行任务。</p>
+      
+      <div class="nav-buttons">
+        <a href="05-Skills 开发.html" class="btn btn-secondary">← Skills 开发</a>
+        <a href="07-Token 优化.html" class="btn">Token 优化 →</a>
       </div>
-      <div class="doc-nav">
-        <a href="../docs.html">← 返回文档中心</a>
-        <a href="../index.html">返回首页 →</a>
-      </div>
-    </article>
+    </div>
   </div>
-  <footer>
-    <p>🐾 OpenClaw 知识库 | MIT License</p>
-    <p style="margin-top: 0.5rem;"><a href="https://github.com/cchen1-08/openclaw-kb">GitHub</a> · <a href="https://docs.openclaw.ai">官方文档</a> · <a href="https://discord.com/invite/clawd">Discord 社区</a></p>
-  </footer>
+  <footer><p>🐾 OpenClaw 知识库 | MIT License</p></footer>
 </body>
 </html>
