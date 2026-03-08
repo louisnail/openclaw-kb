@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qoder 安装 OpenClaw 教程 - OpenClaw 知识库</title>
+  <title>QoderWork 安装 OpenClaw 教程 - OpenClaw 知识库</title>
   <style>
     :root { --primary: #6366f1; --secondary: #ec4899; --accent: #8b5cf6; --bg: #0f172a; --text: #1e293b; --card-bg: rgba(255,255,255,0.98); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,13 +24,14 @@
     .content h3 { color: var(--secondary); font-size: 1.5rem; margin: 2rem 0 1rem; }
     .content p, .content li { color: #475569; margin: 1rem 0; }
     .content ul, .content ol { margin: 1rem 0 1rem 2rem; }
-    .step-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-left: 5px solid var(--primary); padding: 2rem; border-radius: 12px; margin: 2rem 0; }
+    .step-box { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 5px solid #f59e0b; padding: 2rem; border-radius: 12px; margin: 2rem 0; }
     .step-number { display: inline-block; background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: 900; margin-right: 1rem; }
     .prompt-box { background: #1e293b; color: #e2e8f0; padding: 2rem; border-radius: 12px; margin: 1.5rem 0; border: 2px solid var(--primary); }
     .prompt-box h4 { color: var(--secondary); margin-bottom: 1rem; font-size: 1.2rem; }
     .prompt-box pre { white-space: pre-wrap; font-family: 'Courier New', monospace; line-height: 1.6; }
-    .info-box { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 5px solid #f59e0b; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+    .info-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
     .tip-box { background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-left: 5px solid #10b981; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+    .feature-box { background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 2px solid var(--accent); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
     .nav-buttons { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0; }
     .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 12px; text-decoration: none; font-weight: 700; transition: all 0.3s; }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.5); }
@@ -56,67 +57,85 @@
   
   <div class="container">
     <div class="hero">
-      <h1>🤖 通过 Qoder 安装 OpenClaw</h1>
-      <p>完整教程 + 提示词，让 AI 助手帮你自动化安装</p>
+      <h1>🚀 QoderWork 安装 OpenClaw</h1>
+      <p>利用 QoderWork 桌面 AI 助手的自主规划能力，一键自动化安装 OpenClaw</p>
     </div>
     
     <div class="content">
       <div class="info-box">
-        <strong>⏱️ 学习时长：</strong>20 分钟 &nbsp;|&nbsp; 
+        <strong>⏱️ 学习时长：</strong>15 分钟 &nbsp;|&nbsp; 
         <strong>⭐ 难度等级：</strong>简单 &nbsp;|&nbsp; 
-        <strong>🛠️ 前置要求：</strong>已安装 Qoder
+        <strong>🛠️ 前置要求：</strong>已安装 QoderWork Desktop
       </div>
       
-      <div class="step-box">
-        <h2><span class="step-number">1</span>准备工作</h2>
-        <p>在开始之前，请确保：</p>
+      <div class="feature-box">
+        <h3>💡 QoderWork 核心优势</h3>
         <ul>
-          <li>✅ 已安装 Qoder（代码编辑器）</li>
-          <li>✅ Qoder 已配置 AI 助手（推荐通义千问）</li>
-          <li>✅ 电脑已安装 Node.js（v18+）</li>
-          <li>✅ 有稳定的网络连接</li>
+          <li><strong>自主规划</strong> - AI 自动分解复杂任务，无需逐步指令</li>
+          <li><strong>本地执行</strong> - 直接在本地文件系统中操作，无需上传下载</li>
+          <li><strong>安全沙箱</strong> - 所有操作在本地沙箱中运行，数据不出设备</li>
+          <li><strong>直接文件访问</strong> - AI 可直接读写、编辑、创建文件</li>
         </ul>
       </div>
       
       <div class="step-box">
-        <h2><span class="step-number">2</span>打开 Qoder 并启动 AI 助手</h2>
-        <p>在 Qoder 中打开 AI 助手面板（通常快捷键 <code>Ctrl+Shift+P</code> 或 <code>Cmd+Shift+P</code>）</p>
+        <h2><span class="step-number">1</span>下载并安装 QoderWork</h2>
+        <p>访问 <a href="https://qoder.com/download" target="_blank" style="color: var(--primary);">qoder.com/download</a> 下载 QoderWork Desktop：</p>
+        <ul>
+          <li><strong>macOS</strong> - 支持 macOS 14+ (Apple Silicon / Intel)</li>
+          <li><strong>Windows</strong> - 支持 Windows 10+</li>
+        </ul>
+        <p>安装完成后启动 QoderWork，登录或注册账号。</p>
       </div>
       
       <div class="step-box">
-        <h2><span class="step-number">3</span>发送安装提示词</h2>
-        <p>复制以下完整提示词发送给 Qoder 的 AI 助手：</p>
+        <h2><span class="step-number">2</span>创建工作目录</h2>
+        <p>在 QoderWork 中：</p>
+        <ol>
+          <li>点击 "Open Folder" 或 "新建工作区"</li>
+          <li>选择或创建一个空文件夹（例如：<code>~/openclaw-workspace</code>）</li>
+          <li>QoderWork 会请求访问权限，点击"允许"</li>
+        </ol>
+        <div class="tip-box">
+          <strong>💡 提示：</strong>QoderWork 需要访问本地文件权限来执行安装操作。
+        </div>
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">3</span>发送安装指令</h2>
+        <p>在 QoderWork 的 AI 对话框中输入以下指令（复制粘贴）：</p>
         
         <div class="prompt-box">
-          <h4>📋 完整提示词</h4>
-          <pre>请帮我安装 OpenClaw（AI 助手框架），按照以下步骤执行：
+          <h4>🤖 完整安装指令</h4>
+          <pre>请帮我安装 OpenClaw（AI 助手框架），利用你的自主规划能力完成以下任务：
 
-## 步骤 1: 创建项目目录
-在终端执行：
-```bash
-mkdir openclaw-workspace
-cd openclaw-workspace
-```
+## 任务目标
+在本地安装并配置 OpenClaw，使其可以通过 Telegram 或微信访问。
 
-## 步骤 2: 克隆 OpenClaw 仓库
-```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
-```
+## 需要你完成的具体步骤
 
-## 步骤 3: 安装依赖
-```bash
-npm install
-```
+### 1. 环境检查
+- 检查 Node.js 是否已安装（需要 v18+）
+- 如果未安装，提供安装指引
 
-## 步骤 4: 创建环境变量文件
-创建 .env 文件，内容：
+### 2. 克隆项目
+- 在当前工作目录克隆 OpenClaw 仓库
+- 命令：git clone https://github.com/openclaw/openclaw.git
+- 进入项目目录
+
+### 3. 安装依赖
+- 执行 npm install 安装所有依赖
+- 等待安装完成并报告结果
+
+### 4. 创建配置文件
+创建以下文件：
+
+**.env 文件** - 环境变量：
 ```
 DASHSCOPE_API_KEY=请替换为你的通义千问 API Key
 ```
 
-## 步骤 5: 配置渠道
-创建 config.yaml 文件，内容：
+**config.yaml 文件** - 主配置：
 ```yaml
 gateway:
   port: 3000
@@ -138,54 +157,102 @@ models:
     apiKey: ${DASHSCOPE_API_KEY}
     model: qwen-plus
     maxTokens: 2000
+
+memory:
+  enabled: true
+  path: ./MEMORY.md
 ```
 
-## 步骤 6: 启动 OpenClaw
-```bash
-npm start
+### 5. 初始化记忆文件
+创建 MEMORY.md 文件，包含基本结构：
+```markdown
+# MEMORY.md - 长期记忆
+
+## 用户偏好
+- 称呼：用户
+- 时区：Asia/Shanghai
+- 语言：中文
+
+## 项目上下文
+- 当前项目：OpenClaw
 ```
 
-## 步骤 7: 验证安装
-请告诉我如何验证 OpenClaw 是否安装成功，以及下一步该做什么。
+### 6. 启动 OpenClaw
+- 执行启动命令：npm start
+- 监控启动日志
+- 报告 Gateway 是否成功启动
 
-请一步步执行上述命令，并在每一步完成后告诉我结果。如果遇到错误，请详细说明如何修复。</pre>
+### 7. 验证和测试
+- 告诉我如何验证安装成功
+- 提供下一步操作指引
+
+## 执行要求
+1. 请自主规划执行步骤，不需要我逐步确认
+2. 每完成一个步骤请简要报告
+3. 遇到错误时详细说明原因和解决方案
+4. 所有配置文件创建后请告诉我文件位置
+5. 最后提供一个完整的安装总结
+
+请现在开始执行，首先检查环境。</pre>
         </div>
       </div>
       
       <div class="step-box">
-        <h2><span class="step-number">4</span>等待 AI 执行</h2>
-        <p>Qoder 的 AI 助手会自动：</p>
+        <h2><span class="step-number">4</span>等待 QoderWork 自主执行</h2>
+        <p>QoderWork 会自主完成：</p>
         <ul>
-          <li>✅ 创建项目目录</li>
+          <li>✅ 环境检查（Node.js、Git）</li>
           <li>✅ 克隆 Git 仓库</li>
           <li>✅ 安装 npm 依赖</li>
-          <li>✅ 创建配置文件</li>
-          <li>✅ 启动 OpenClaw</li>
+          <li>✅ 创建所有配置文件</li>
+          <li>✅ 初始化记忆系统</li>
+          <li>✅ 启动 OpenClaw Gateway</li>
+          <li>✅ 验证安装状态</li>
         </ul>
         
         <div class="tip-box">
-          <strong>💡 提示：</strong>如果 AI 询问 API Key 或 Bot Token，请提供真实值。可以从以下地址获取：
+          <strong>💡 QoderWork 优势：</strong>
           <ul>
-            <li>通义千问 API Key: https://dashscope.console.aliyun.com/</li>
-            <li>Telegram Bot Token: 在 Telegram 中搜索 @BotFather</li>
+            <li>无需逐步指令 - AI 自主规划所有步骤</li>
+            <li>直接文件操作 - 无需手动创建文件</li>
+            <li>错误自动处理 - 遇到问题会自动尝试修复</li>
+            <li>实时进度反馈 - 随时了解执行状态</li>
           </ul>
         </div>
       </div>
       
       <div class="step-box">
-        <h2><span class="step-number">5</span>验证安装</h2>
-        <p>安装完成后，AI 会显示类似输出：</p>
-        <div class="prompt-box">
-          <pre>[Gateway] Starting OpenClaw Gateway...
-[Channels] Loading channel plugins...
-[Telegram] Bot "OpenClaw Bot" started successfully
-[Gateway] Gateway is running! Listening for messages...</pre>
-        </div>
-        <p>看到 <code>Gateway is running!</code> 说明安装成功！</p>
+        <h2><span class="step-number">5</span>提供必要信息</h2>
+        <p>QoderWork 在执行过程中可能会询问：</p>
+        <ul>
+          <li><strong>通义千问 API Key</strong> - 从 <a href="https://dashscope.console.aliyun.com/" target="_blank">DashScope 控制台</a> 获取</li>
+          <li><strong>Telegram Bot Token</strong> - 在 Telegram 中搜索 @BotFather 创建机器人</li>
+        </ul>
+        <p>将这些真实值提供给 QoderWork，它会更新到配置文件中。</p>
       </div>
       
       <div class="step-box">
-        <h2><span class="step-number">6</span>测试机器人</h2>
+        <h2><span class="step-number">6</span>验证安装成功</h2>
+        <p>QoderWork 会显示类似输出：</p>
+        <div class="prompt-box">
+          <pre>✅ 环境检查完成 - Node.js v20.11.0, Git 2.39.0
+✅ 项目克隆完成 - openclaw/ 目录已创建
+✅ 依赖安装完成 - 安装了 234 个包
+✅ 配置文件创建 - .env, config.yaml, MEMORY.md
+✅ Gateway 启动成功 - 监听端口 3000
+✅ 渠道加载成功 - Telegram Bot "OpenClaw Bot" 已启动
+
+🎉 OpenClaw 安装完成！
+
+下一步：
+1. 在 Telegram 中找到 @OpenClawBot
+2. 发送消息 "你好" 测试
+3. 查看 docs/ 目录中的文档</pre>
+        </div>
+      </div>
+      
+      <div class="step-box">
+        <h2><span class="step-number">7</span>测试机器人</h2>
         <p>在 Telegram 中找到你的机器人，发送：</p>
         <div class="prompt-box">
           <pre>你好</pre>
@@ -203,18 +270,31 @@ npm start
       
       <h2>🐛 常见问题</h2>
       
-      <h3>Q1: Qoder 无法执行终端命令</h3>
-      <p>解决方法：在 Qoder 设置中启用终端权限，或手动在终端执行命令。</p>
+      <h3>Q1: QoderWork 无法访问本地文件</h3>
+      <p>解决方法：在系统设置中授予 QoderWork "完全磁盘访问权限"（macOS）或管理员权限（Windows）。</p>
       
-      <h3>Q2: npm install 失败</h3>
-      <p>解决方法：检查 Node.js 版本（需要 v18+），或尝试 <code>npm install --legacy-peer-deps</code></p>
+      <h3>Q2: Node.js 版本过低</h3>
+      <p>QoderWork 会自动检测并提示升级。可以访问 <a href="https://nodejs.org" target="_blank">nodejs.org</a> 下载最新版本。</p>
       
-      <h3>Q3: Gateway 启动失败</h3>
-      <p>检查项：</p>
+      <h3>Q3: Git 未安装</h3>
+      <p>QoderWork 会提供安装指引，或可以手动下载 Git：<a href="https://git-scm.com" target="_blank">git-scm.com</a></p>
+      
+      <h3>Q4: Gateway 启动失败</h3>
+      <p>QoderWork 会自动检查：</p>
       <ul>
         <li>端口 3000 是否被占用</li>
         <li>.env 文件是否存在</li>
         <li>API Key 是否正确</li>
+        <li>依赖是否完整安装</li>
+      </ul>
+      
+      <h2>📚 QoderWork 进阶用法</h2>
+      <p>安装完成后，QoderWork 还可以帮你：</p>
+      <ul>
+        <li><strong>开发 Skills</strong> - "帮我创建一个天气查询 Skill"</li>
+        <li><strong>调试问题</strong> - "分析 Gateway 日志，找出错误原因"</li>
+        <li><strong>优化配置</strong> - "帮我优化 Token 使用，降低成本"</li>
+        <li><strong>编写文档</strong> - "为我的 Skill 编写使用文档"</li>
       </ul>
       
       <div class="nav-buttons">
