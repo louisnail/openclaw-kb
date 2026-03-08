@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知识脑图 - OpenClaw 知识库</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #64748b;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #0f172a;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .navbar-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .navbar-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .navbar-nav a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .navbar-nav a:hover {
+      color: var(--primary);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .hero {
+      text-align: center;
+      color: white;
+      margin-bottom: 3rem;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .mindmap-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+    
+    .mindmap-center {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .mindmap-center h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .mindmap-branches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    
+    .branch {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .branch h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    
+    .branch ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .branch li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .branch li:last-child {
+      border-bottom: none;
+    }
+    
+    .branch li::before {
+      content: "→ ";
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    footer {
+      background: rgba(0,0,0,0.2);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 4rem;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-brand">🐾 OpenClaw 知识库</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="docs.html">文档中心</a></li>
+        <li><a href="skills.html">Skills 示例</a></li>
+        <li><a href="mindmaps.html">知识脑图</a></li>
+        <li><a href="videos.html">视频资源</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="hero">
+      <h1>🧠 知识脑图</h1>
+      <p>OpenClaw 核心概念一图掌握</p>
+    </div>
+    
+    <div class="mindmap-container">
+      <div class="mindmap-center">
+        <h2>🐾 OpenClaw</h2>
+        <p>AI 助手平台 · 28 个 Skills · 定时任务 · 记忆系统</p>
+      </div>
+      
+      <div class="mindmap-branches">
+        <div class="branch">
+          <h3>🏗️ 架构组成</h3>
+          <ul>
+            <li>Gateway (网关)</li>
+            <li>Sessions (会话)</li>
+            <li>Agents (智能体)</li>
+            <li>Skills (技能)</li>
+          </ul>
+        </div>
+        
+        <div class="branch">
+          <h3>📬 消息流程</h3>
+          <ul>
+            <li>用户消息</li>
+            <li>渠道接入</li>
+            <li>Gateway 接收</li>
+            <li>Agent 处理</li>
+            <li>回复生成</li>
+          </ul>
+        </div>
+        
+        <div class="branch">
+          <h3>🧠 记忆系统</h3>
+          <ul>
+            <li>MEMORY.md (长期)</li>
+            <li>memory/ (日常)</li>
+            <li>memory_search (搜索)</li>
+            <li>memory_get (读取)</li>
+          </ul>
+        </div>
+        
+        <div class="branch">
+          <h3>⏰ 定时任务</h3>
+          <ul>
+            <li>at (一次性)</li>
+            <li>every (周期性)</li>
+            <li>cron (表达式)</li>
+            <li>systemEvent</li>
+            <li>agentTurn</li>
+          </ul>
+        </div>
+        
+        <div class="branch">
+          <h3>💰 Token 优化</h3>
+          <ul>
+            <li>提示词精简</li>
+            <li>上下文管理</li>
+            <li>响应控制</li>
+            <li>缓存复用</li>
+          </ul>
+        </div>
+        
+        <div class="branch">
+          <h3>🛠️ Skills 开发</h3>
+          <ul>
+            <li>SKILL.md</li>
+            <li>index.js</li>
+            <li>package.json</li>
+            <li>调试技巧</li>
+          </ul>
+        </div>
+        
+        <div class="branch">
+          <h3>🔗 渠道集成</h3>
+          <ul>
+            <li>Telegram</li>
+            <li>微信</li>
+            <li>Discord</li>
+            <li>Feishu</li>
+          </ul>
+        </div>
+        
+        <div class="branch">
+          <h3>🎯 使用场景</h3>
+          <ul>
+            <li>个人助理</li>
+            <li>知识管理</li>
+            <li>自动化</li>
+            <li>开发辅助</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="../mindmaps/核心概念脑图.md" style="color: white; text-decoration: underline; font-size: 1.1rem; font-weight: 600;">查看完整脑图 →</a>
+    </div>
+  </div>
+  
+  <footer>
+    <p>🐾 OpenClaw 知识库 | MIT License</p>
+  </footer>
+</body>
+</html>
