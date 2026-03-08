@@ -1,9 +1,31 @@
+#!/bin/bash
+
+# 文档配置
+docs=(
+  "01-安装指南:📦 安装指南:15 分钟|难度 ⭐:零基础安装教程，15 分钟快速部署 OpenClaw 环境"
+  "02-快速开始:🚀 快速开始:30 分钟|难度 ⭐:发送第一条消息，理解基本概念，配置常用功能"
+  "03-配置详解:⚙️ 配置详解:1 小时|难度 ⭐⭐:完全掌握配置文件，渠道接入，模型配置，环境变量"
+  "04-提示词工程:💬 提示词工程:1 小时|难度 ⭐⭐:设计更好的提示词，获得更好的 AI 回复质量"
+  "05-Skills 开发:🛠️ Skills 开发:2 小时|难度 ⭐⭐⭐:从 0 到 1 创建自定义 Skills，扩展 AI 能力"
+  "06-定时任务:⏰ 定时任务:45 分钟|难度 ⭐⭐:配置 Cron Jobs，让 AI 自动执行定时任务"
+  "07-Token 优化:💰 Token 优化:1 小时|难度 ⭐⭐⭐:省钱就是赚钱，优化 Token 使用降低 30-60% 成本"
+  "08-最佳实践:🏆 最佳实践:1 小时|难度 ⭐⭐:来自社区的经验总结，架构、开发、运维全涵盖"
+)
+
+for doc in "${docs[@]}"; do
+  IFS=':' read -r filename title meta description <<< "$doc"
+  
+  # 读取 Markdown 内容
+  md_content=$(cat "docs/${filename}.md" 2>/dev/null || echo "# ${title}\n\n${description}")
+  
+  # 创建 HTML（简化版，实际应该用 pandoc 转换）
+  cat > "docs/${filename}.html" << HTMLEOF
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📦 安装指南 - OpenClaw 知识库</title>
+  <title>${title} - OpenClaw 知识库</title>
   <style>
     :root { --primary: #2563eb; --secondary: #64748b; --bg: #f1f5f9; --card-bg: #ffffff; --text: #0f172a; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,13 +71,13 @@
   </nav>
   <div class="container">
     <article class="doc-content">
-      <h1>📦 安装指南</h1>
-      <p style="font-size: 1.2rem; color: var(--secondary); margin-bottom: 2rem;">⏱️ 15 分钟|难度 ⭐</p>
-      <blockquote><p>零基础安装教程，15 分钟快速部署 OpenClaw 环境</p></blockquote>
+      <h1>${title}</h1>
+      <p style="font-size: 1.2rem; color: var(--secondary); margin-bottom: 2rem;">⏱️ ${meta}</p>
+      <blockquote><p>${description}</p></blockquote>
       <div style="margin-top: 2rem; padding: 2rem; background: #f1f5f9; border-radius: 8px; text-align: center;">
         <h2 style="color: var(--primary);">📝 文档内容</h2>
         <p>本文档完整内容请查看 Markdown 源文件或等待后续完善</p>
-        <p style="margin-top: 1rem;"><a href="01-安装指南.md" style="color: var(--primary);">查看 Markdown 原文 →</a></p>
+        <p style="margin-top: 1rem;"><a href="${filename}.md" style="color: var(--primary);">查看 Markdown 原文 →</a></p>
       </div>
       <div class="doc-nav">
         <a href="../docs.html">← 返回文档中心</a>
@@ -69,3 +91,9 @@
   </footer>
 </body>
 </html>
+HTMLEOF
+  
+  echo "✅ Created: docs/${filename}.html"
+done
+
+echo "🎉 All docs created!"
