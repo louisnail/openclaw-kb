@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw 知识库 - 从入门到精通</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #64748b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    header p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    }
+    
+    .card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    
+    .card .meta {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+      color: var(--secondary);
+    }
+    
+    .card .tag {
+      background: #e0e7ff;
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+    }
+    
+    .card a {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .card a:hover {
+      text-decoration: underline;
+    }
+    
+    .progress {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #7c3aed);
+      width: 65%;
+      transition: width 0.3s;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--secondary);
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .emoji {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐾 OpenClaw 知识库</h1>
+    <p>从入门到精通 · 傻瓜式教程 · 持续迭代</p>
+  </header>
+  
+  <div class="container">
+    <!-- 进度卡片 -->
+    <div class="progress">
+      <h2>📊 建设进度</h2>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <p>整体完成度：65% (13/20 任务完成)</p>
+      <p style="margin-top: 0.5rem; color: var(--secondary);">
+        最后更新：2026-03-08 11:15 | 下次汇报：10 分钟后
+      </p>
+    </div>
+    
+    <!-- 核心文档 -->
+    <h2 style="margin-bottom: 1.5rem;">📚 核心文档</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="emoji">📦</span>安装指南</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐</span>
+          <span>15 分钟</span>
+        </div>
+        <p>零基础安装教程，15 分钟快速部署 OpenClaw 环境</p>
+        <a href="docs/01-安装指南.md">阅读全文 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">🚀</span>快速开始</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐</span>
+          <span>30 分钟</span>
+        </div>
+        <p>发送第一条消息，理解基本概念，配置常用功能</p>
+        <a href="docs/02-快速开始.md">阅读全文 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">⚙️</span>配置详解</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐⭐</span>
+          <span>1 小时</span>
+        </div>
+        <p>完全掌握配置文件，渠道接入，模型配置，环境变量</p>
+        <a href="docs/03-配置详解.md">阅读全文 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">💬</span>提示词工程</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐⭐</span>
+          <span>1 小时</span>
+        </div>
+        <p>设计更好的提示词，获得更好的 AI 回复质量</p>
+        <a href="docs/04-提示词工程.md">阅读全文 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">🛠️</span>Skills 开发</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐⭐⭐</span>
+          <span>2 小时</span>
+        </div>
+        <p>从 0 到 1 创建自定义 Skills，扩展 AI 能力</p>
+        <a href="docs/05-Skills 开发.md">阅读全文 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">⏰</span>定时任务</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐⭐</span>
+          <span>45 分钟</span>
+        </div>
+        <p>配置 Cron Jobs，让 AI 自动执行定时任务</p>
+        <a href="docs/06-定时任务.md">阅读全文 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">💰</span>Token 优化</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐⭐⭐</span>
+          <span>1 小时</span>
+        </div>
+        <p>省钱就是赚钱，优化 Token 使用降低 30-60% 成本</p>
+        <a href="docs/07-Token 优化.md">阅读全文 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">🏆</span>最佳实践</h3>
+        <div class="meta">
+          <span class="tag">难度 ⭐⭐</span>
+          <span>1 小时</span>
+        </div>
+        <p>来自社区的经验总结，架构、开发、运维全涵盖</p>
+        <a href="docs/08-最佳实践.md">阅读全文 →</a>
+      </div>
+    </div>
+    
+    <!-- 示例代码 -->
+    <h2 style="margin-bottom: 1.5rem;">💻 示例代码</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="emoji">📜</span>每日一句 Skill</h3>
+        <p>入门级示例，展示 Skills 基本结构和开发流程</p>
+        <a href="skills-examples/quote-of-day/">查看代码 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">✅</span>待办事项 Skill</h3>
+        <p>待办事项管理，支持添加、删除、列出任务</p>
+        <a href="#">即将上线 →</a>
+      </div>
+      
+      <div class="card">
+        <h3><span class="emoji">📁</span>文件处理 Skill</h3>
+        <p>文件读写、格式转换、批量处理示例</p>
+        <a href="#">即将上线 →</a>
+      </div>
+    </div>
+    
+    <!-- 脑图 -->
+    <h2 style="margin-bottom: 1.5rem;">🧠 知识脑图</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="emoji">🗺️</span>核心概念脑图</h3>
+        <p>OpenClaw 知识体系总览，快速建立整体认知</p>
+        <a href="mindmaps/核心概念脑图.md">查看脑图 →</a>
+      </div>
+    </div>
+    
+    <!-- 视频资源 -->
+    <h2 style="margin-bottom: 1.5rem;">📺 视频资源</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="emoji">🎬</span>视频教程索引</h3>
+        <p>精选 B 站/头条高质量教程，要点总结 + 笔记</p>
+        <a href="videos/视频资源索引.md">查看索引 →</a>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>🐾 OpenClaw 知识库 | MIT License</p>
+    <p style="margin-top: 0.5rem;">
+      <a href="https://github.com/openclaw/openclaw" style="color: var(--primary);">GitHub</a> · 
+      <a href="https://docs.openclaw.ai" style="color: var(--primary);">官方文档</a> · 
+      <a href="https://discord.com/invite/clawd" style="color: var(--primary);">Discord 社区</a>
+    </p>
+  </footer>
+</body>
+</html>
