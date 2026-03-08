@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skills 示例 - OpenClaw 知识库</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #64748b;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .navbar-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .navbar-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .navbar-nav a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .navbar-nav a:hover {
+      color: var(--primary);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .hero {
+      text-align: center;
+      color: white;
+      margin-bottom: 3rem;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .skill-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    
+    .skill-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+    
+    .skill-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .skill-icon {
+      font-size: 3rem;
+    }
+    
+    .skill-card h3 {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+    
+    .skill-meta {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .tag-built-in {
+      background: #dbeafe;
+      color: var(--primary);
+    }
+    
+    .tag-custom {
+      background: #fef3c7;
+      color: #d97706;
+    }
+    
+    .skill-card p {
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+    
+    .skill-code {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    
+    .skill-link {
+      display: inline-block;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .stats-bar {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      color: var(--secondary);
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    
+    footer {
+      background: rgba(0,0,0,0.2);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 4rem;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-brand">🐾 OpenClaw 知识库</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="docs.html">文档中心</a></li>
+        <li><a href="skills.html">Skills 示例</a></li>
+        <li><a href="mindmaps.html">知识脑图</a></li>
+        <li><a href="videos.html">视频资源</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="hero">
+      <h1>💻 Skills 示例</h1>
+      <p>28 个内置 Skills + 自定义 Skills 示例代码</p>
+    </div>
+    
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value">28</div>
+        <div class="stat-label">内置 Skills</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">3</div>
+        <div class="stat-label">示例代码</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">开箱即用</div>
+      </div>
+    </div>
+    
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">📜</div>
+          <h3>Quote of Day</h3>
+        </div>
+        <div class="skill-meta">
+          <span class="tag tag-custom">自定义示例</span>
+          <span class="tag">入门级</span>
+        </div>
+        <p>每日一句励志名言，展示 Skills 基本结构和开发流程。</p>
+        <div class="skill-code">
+export async function getQuote(params) {
+  const quotes = [
+    { text: "千里之行，始于足下", author: "老子" },
+    { text: "学而不思则罔", author: "孔子" }
+  ];
+  return quotes[Math.floor(Math.random() * quotes.length)];
+}
+        </div>
+        <a href="../skills-examples/quote-of-day/" class="skill-link">查看完整代码 →</a>
+      </div>
+      
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🌤️</div>
+          <h3>Weather</h3>
+        </div>
+        <div class="skill-meta">
+          <span class="tag tag-built-in">内置 Skill</span>
+          <span class="tag">实用</span>
+        </div>
+        <p>获取当前天气和预报，无需 API 密钥。</p>
+        <div class="skill-code">
+// 使用示例
+天气怎么样？
+北京今天会下雨吗？
+        </div>
+        <a href="https://docs.openclaw.ai/skills/weather" class="skill-link">查看文档 →</a>
+      </div>
+      
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">📈</div>
+          <h3>Stock Watcher</h3>
+        </div>
+        <div class="skill-meta">
+          <span class="tag tag-built-in">内置 Skill</span>
+          <span class="tag">金融</span>
+        </div>
+        <p>管理个人股票观察列表，获取实时行情。</p>
+        <div class="skill-code">
+// 使用示例
+添加 AAPL 到观察列表
+显示我的股票
+        </div>
+        <a href="https://docs.openclaw.ai/skills/stock-watcher" class="skill-link">查看文档 →</a>
+      </div>
+      
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">📄</div>
+          <h3>PDF 处理</h3>
+        </div>
+        <div class="skill-meta">
+          <span class="tag tag-built-in">内置 Skill</span>
+          <span class="tag">文档</span>
+        </div>
+        <p>读取、转换、合并 PDF 文件，支持 OCR。</p>
+        <div class="skill-code">
+// 使用示例
+读取这个 PDF
+把 PDF 转成 Markdown
+        </div>
+        <a href="https://docs.openclaw.ai/skills/pdf" class="skill-link">查看文档 →</a>
+      </div>
+      
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🎨</div>
+          <h3>图像生成</h3>
+        </div>
+        <div class="skill-meta">
+          <span class="tag tag-built-in">内置 Skill</span>
+          <span class="tag">AI</span>
+        </div>
+        <p>使用通义万相生成高质量图像。</p>
+        <div class="skill-code">
+// 使用示例
+画一只可爱的猫咪
+生成赛博朋克风格的城市
+        </div>
+        <a href="https://docs.openclaw.ai/skills/qwen-image" class="skill-link">查看文档 →</a>
+      </div>
+      
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🌐</div>
+          <h3>网页抓取</h3>
+        </div>
+        <div class="skill-meta">
+          <span class="tag tag-built-in">内置 Skill</span>
+          <span class="tag">爬虫</span>
+        </div>
+        <p>抓取网页内容并保存为 HTML 或 Markdown。</p>
+        <div class="skill-code">
+// 使用示例
+抓取这个 URL
+保存网页为 Markdown
+        </div>
+        <a href="https://docs.openclaw.ai/skills/web-scraper" class="skill-link">查看文档 →</a>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem;">
+      <p style="color: white; margin-bottom: 1rem;">还有 22 个内置 Skills 等待探索！</p>
+      <a href="../QODER-SKILLS-AUDIT.md" style="color: white; text-decoration: underline; font-weight: 600;">查看完整 Skills 列表 →</a>
+    </div>
+  </div>
+  
+  <footer>
+    <p>🐾 OpenClaw 知识库 | MIT License</p>
+  </footer>
+</body>
+</html>

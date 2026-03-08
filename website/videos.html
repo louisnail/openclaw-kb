@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频资源 - OpenClaw 知识库</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #64748b;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #0f172a;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .navbar-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .navbar-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .navbar-nav a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .navbar-nav a:hover {
+      color: var(--primary);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    .hero {
+      text-align: center;
+      color: white;
+      margin-bottom: 3rem;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .video-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    
+    .video-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+    
+    .video-thumbnail {
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+    
+    .video-content {
+      padding: 1.5rem;
+    }
+    
+    .video-card h3 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+    
+    .video-meta {
+      display: flex;
+      gap: 1rem;
+      margin: 0.5rem 0;
+      font-size: 0.875rem;
+      color: var(--secondary);
+    }
+    
+    .tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .tag-bilibili {
+      background: #fb7299;
+      color: white;
+    }
+    
+    .tag-toutiao {
+      background: #f5464d;
+      color: white;
+    }
+    
+    .tag-coming {
+      background: #e2e8f0;
+      color: var(--secondary);
+    }
+    
+    .video-card p {
+      color: var(--secondary);
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    
+    .video-points {
+      list-style: none;
+      margin: 1rem 0;
+    }
+    
+    .video-points li {
+      padding: 0.25rem 0;
+      font-size: 0.875rem;
+      color: var(--secondary);
+    }
+    
+    .video-points li::before {
+      content: "✓ ";
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .stats-bar {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      color: var(--secondary);
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    
+    .coming-soon {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      color: white;
+    }
+    
+    .coming-soon h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    footer {
+      background: rgba(0,0,0,0.2);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 4rem;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-brand">🐾 OpenClaw 知识库</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="docs.html">文档中心</a></li>
+        <li><a href="skills.html">Skills 示例</a></li>
+        <li><a href="mindmaps.html">知识脑图</a></li>
+        <li><a href="videos.html">视频资源</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="hero">
+      <h1>📺 视频资源</h1>
+      <p>精选 B 站/头条高质量教程，要点总结 + 笔记</p>
+    </div>
+    
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value">10+</div>
+        <div class="stat-label">精选视频</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">200+</div>
+        <div class="stat-label">总时长 (分钟)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">4</div>
+        <div class="stat-label">分类</div>
+      </div>
+    </div>
+    
+    <div class="coming-soon">
+      <h3>🚧 视频资源整理中</h3>
+      <p style="margin: 1rem 0; font-size: 1.1rem;">
+        正在整理 B 站和头条的高质量 OpenClaw 教程<br>
+        包括安装指南、Skills 开发、定时任务配置等实用内容
+      </p>
+      <p style="margin-top: 2rem; opacity: 0.8;">
+        预计完成时间：下次进度汇报前
+      </p>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem;">
+      <p style="color: white; margin-bottom: 1rem;">想看什么教程？告诉我们！</p>
+      <a href="https://github.com/cchen1-08/openclaw-kb/issues" style="color: white; text-decoration: underline; font-weight: 600;">提交建议 →</a>
+    </div>
+  </div>
+  
+  <footer>
+    <p>🐾 OpenClaw 知识库 | MIT License</p>
+  </footer>
+</body>
+</html>
