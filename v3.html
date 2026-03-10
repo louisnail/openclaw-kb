@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦞 OpenClaw 知识库 - 方案3：B站/小红书风格</title>
+  <meta name="description" content="AI 技术文章、视频聚合平台">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#FF6B6B', dark: '#EE5A5A', light: '#FF8585' },
+            secondary: '#4ECDC4',
+            accent: '#FFE66D',
+            dark: { primary: '#0F172A', secondary: '#1E293B', tertiary: '#334155' }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    /* 瀑布流布局 */
+    .masonry-grid {
+      column-count: 1;
+      column-gap: 1rem;
+    }
+    
+    @media (min-width: 640px) {
+      .masonry-grid { column-count: 2; }
+    }
+    
+    @media (min-width: 1024px) {
+      .masonry-grid { column-count: 3; }
+    }
+    
+    @media (min-width: 1280px) {
+      .masonry-grid { column-count: 4; }
+    }
+    
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+    }
+    
+    /* 卡片悬停效果 */
+    .content-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .content-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .content-card:hover .card-image {
+      transform: scale(1.05);
+    }
+    
+    .card-image {
+      transition: transform 0.5s ease;
+    }
+    
+    /* 视频播放按钮 */
+    .play-btn {
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .content-card:hover .play-btn {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    /* 标签样式 */
+    .tag-pill {
+      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    /* 导航栏 */
+    .nav-blur {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.9);
+    }
+    
+    .dark .nav-blur {
+      background: rgba(15, 23, 42, 0.9);
+    }
+    
+    /* 分类标签 */
+    .category-tab {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .category-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #FF6B6B;
+      border-radius: 2px;
+    }
+    
+    /* 加载动画 */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-dark-primary transition-colors duration-300">
+  
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="w-10 h-10">
+            <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
+          </div>
+          <span class="text-xl font-bold text-gray-800 dark:text-white">OpenClaw</span>
+        </a>
+        
+        <!-- 搜索框 -->
+        <div class="flex-1 max-w-xl mx-8">
+          <div class="relative">
+            <input type="text" placeholder="搜索文章、视频..." 
+                   class="w-full px-4 py-2 pl-10 rounded-full bg-gray-100 dark:bg-gray-800 border-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all">
+            <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          </div>
+        </div>
+        
+        <!-- 右侧按钮 -->
+        <div class="flex items-center space-x-3">
+          <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-moon dark:hidden text-gray-600"></i>
+            <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+          </button>
+          <button onclick="showLoginModal()" class="px-5 py-2 rounded-full bg-primary text-white font-medium hover:bg-primary-dark transition-colors">
+            登录
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- 分类标签栏 -->
+  <div class="fixed top-16 left-0 right-0 z-40 bg-white dark:bg-dark-primary border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center space-x-6 overflow-x-auto py-3 scrollbar-hide">
+        <button class="category-tab active text-sm font-medium text-gray-800 dark:text-white whitespace-nowrap">推荐</button>
+        <button class="category-tab text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white whitespace-nowrap">热门</button>
+        <button class="category-tab text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white whitespace-nowrap">视频</button>
+        <button class="category-tab text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white whitespace-nowrap">文章</button>
+        <button class="category-tab text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white whitespace-nowrap">教程</button>
+        <button class="category-tab text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white whitespace-nowrap">AI 工具</button>
+        <button class="category-tab text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white whitespace-nowrap">开发技巧</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 主内容区 -->
+  <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- 瀑布流网格 -->
+      <div class="masonry-grid" id="contentGrid">
+        
+        <!-- 视频卡片 1 -->
+        <div class="masonry-item">
+          <div class="content-card bg-white dark:bg-dark-secondary rounded-2xl overflow-hidden shadow-sm cursor-pointer" onclick="openContent('video1')">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="https://picsum.photos/400/225?random=1" alt="视频封面" class="card-image w-full h-full object-cover">
+              <div class="absolute inset-0 bg-black/20"></div>
+              <div class="play-btn absolute inset-0 flex items-center justify-center">
+                <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                  <i class="fas fa-play text-primary text-xl ml-1"></i>
+                </div>
+              </div>
+              <span class="tag-pill absolute bottom-2 left-2 px-2 py-1 rounded text-xs text-white">12:34</span>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">OpenClaw 快速入门：30分钟搭建你的 AI 助手</h3>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-red-400"></div>
+                  <span>OpenClaw 官方</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span><i class="fas fa-eye mr-1"></i>2.3k</span>
+                  <span><i class="fas fa-thumbs-up mr-1"></i>567</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 文章卡片 1 -->
+        <div class="masonry-item">
+          <div class="content-card bg-white dark:bg-dark-secondary rounded-2xl overflow-hidden shadow-sm cursor-pointer" onclick="openContent('article1')">
+            <div class="relative overflow-hidden aspect-[4/3]">
+              <img src="https://picsum.photos/400/300?random=2" alt="文章封面" class="card-image w-full h-full object-cover">
+              <span class="tag-pill absolute top-2 right-2 px-2 py-1 rounded text-xs text-white">文章</span>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">2024年最值得学习的 10 个 AI 开发工具</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">从 ChatGPT 到 Claude，从 Cursor 到 Windsurf，这篇文章带你了解最新的 AI 开发工具...</p>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400"></div>
+                  <span>技术博主</span>
+                </div>
+                <span>2小时前</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 视频卡片 2 -->
+        <div class="masonry-item">
+          <div class="content-card bg-white dark:bg-dark-secondary rounded-2xl overflow-hidden shadow-sm cursor-pointer" onclick="openContent('video2')">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="https://picsum.photos/400/225?random=3" alt="视频封面" class="card-image w-full h-full object-cover">
+              <div class="absolute inset-0 bg-black/20"></div>
+              <div class="play-btn absolute inset-0 flex items-center justify-center">
+                <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                  <i class="fas fa-play text-primary text-xl ml-1"></i>
+                </div>
+              </div>
+              <span class="tag-pill absolute bottom-2 left-2 px-2 py-1 rounded text-xs text-white">08:15</span>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">Skills 开发实战：从零编写一个天气查询 Skill</h3>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-teal-400"></div>
+                  <span>开发者小明</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span><i class="fas fa-eye mr-1"></i>1.8k</span>
+                  <span><i class="fas fa-thumbs-up mr-1"></i>423</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 文章卡片 2 -->
+        <div class="masonry-item">
+          <div class="content-card bg-white dark:bg-dark-secondary rounded-2xl overflow-hidden shadow-sm cursor-pointer" onclick="openContent('article2')">
+            <div class="p-4">
+              <span class="inline-block px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 text-xs mb-2">教程</span>
+              <h3 class="font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">Prompt Engineering 完全指南：让 AI 更懂你的需求</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-3">掌握提示词工程的核心技巧，包括角色设定、上下文管理、输出格式控制等高级用法...</p>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-pink-400"></div>
+                  <span>AI 研究员</span>
+                </div>
+                <span>5小时前</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 视频卡片 3 -->
+        <div class="masonry-item">
+          <div class="content-card bg-white dark:bg-dark-secondary rounded-2xl overflow-hidden shadow-sm cursor-pointer" onclick="openContent('video3')">
+            <div class="relative overflow-hidden aspect-video">
+              <img src="https://picsum.photos/400/225?random=4" alt="视频封面" class="card-image w-full h-full object-cover">
+              <div class="absolute inset-0 bg-black/20"></div>
+              <div class="play-btn absolute inset-0 flex items-center justify-center">
+                <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                  <i class="fas fa-play text-primary text-xl ml-1"></i>
+                </div>
+              </div>
+              <span class="tag-pill absolute bottom-2 left-2 px-2 py-1 rounded text-xs text-white">25:00</span>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">深度解析：OpenClaw 架构设计与实现原理</h3>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-red-400"></div>
+                  <span>OpenClaw 官方</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span><i class="fas fa-eye mr-1"></i>3.5k</span>
+                  <span><i class="fas fa-thumbs-up mr-1"></i>892</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 文章卡片 3 -->
+        <div class="masonry-item">
+          <div class="content-card bg-white dark:bg-dark-secondary rounded-2xl overflow-hidden shadow-sm cursor-pointer" onclick="openContent('article3')">
+            <div class="relative overflow-hidden aspect-[3/4]">
+              <img src="https://picsum.photos/400/533?random=5" alt="文章封面" class="card-image w-full h-full object-cover">
+              <span class="tag-pill absolute top-2 right-2 px-2 py-1 rounded text-xs text-white">文章</span>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-800 dark:text-white mb-2 line-clamp-2">AI 助手开发避坑指南：我踩过的 10 个坑</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">从 Token 限制到上下文管理，从错误处理到性能优化...</p>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                  <div class="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400"></div>
+                  <span>资深开发者</span>
+                </div>
+                <span>1天前</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 更多卡片... -->
+        
+      </div>
+      
+      <!-- 加载更多 -->
+      <div class="text-center mt-8">
+        <button onclick="loadMore()" class="px-8 py-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          加载更多
+        </button>
+      </div>
+    </div>
+  </main>
+  
+  <!-- 悬浮上传按钮 -->
+  <button onclick="showUploadModal()" class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-primary text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all z-40 flex items-center justify-center">
+    <i class="fas fa-plus text-xl"></i>
+  </button>
+  
+  <script>
+    // 暗黑模式切换
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+    }
+    
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+    
+    // 登录弹窗
+    function showLoginModal() {
+      alert('登录功能开发中...');
+    }
+    
+    // 上传弹窗
+    function showUploadModal() {
+      alert('上传功能开发中...');
+    }
+    
+    // 打开内容
+    function openContent(contentId) {
+      window.location.href = 'doc-viewer.html?id=' + contentId;
+    }
+    
+    // 加载更多
+    function loadMore() {
+      alert('加载更多内容...');
+    }
+    
+    // 分类切换
+    document.querySelectorAll('.category-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.category-tab').forEach(t => {
+          t.classList.remove('active');
+          t.classList.remove('text-gray-800', 'dark:text-white');
+          t.classList.add('text-gray-600', 'dark:text-gray-400');
+        });
+        this.classList.add('active');
+        this.classList.remove('text-gray-600', 'dark:text-gray-400');
+        this.classList.add('text-gray-800', 'dark:text-white');
+      });
+    });
+  </script>
+</body>
+</html>

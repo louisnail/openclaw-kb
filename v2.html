@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw 知识库 - 方案2：Notion风格</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .doc-card {
+      transition: all 0.2s ease;
+    }
+    .doc-card:hover {
+      background: #f5f5f5;
+    }
+    .sidebar-item:hover {
+      background: #f5f5f5;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+  <div class="flex h-screen">
+    <!-- 左侧边栏 -->
+    <aside class="w-64 border-r border-gray-200 flex flex-col">
+      <div class="p-4">
+        <div class="flex items-center space-x-2 mb-6">
+          <div class="w-8 h-8 bg-gray-800 rounded"></div>
+          <span class="font-semibold">OpenClaw</span>
+        </div>
+        
+        <button class="w-full flex items-center space-x-2 px-3 py-2 rounded hover:bg-gray-100 mb-2">
+          <i class="fas fa-plus text-gray-500"></i>
+          <span class="text-sm">新建文档</span>
+        </button>
+        
+        <div class="space-y-1">
+          <div class="sidebar-item flex items-center space-x-2 px-3 py-2 rounded cursor-pointer">
+            <i class="fas fa-home text-gray-400 w-4"></i>
+            <span class="text-sm">首页</span>
+          </div>
+          <div class="sidebar-item flex items-center space-x-2 px-3 py-2 rounded cursor-pointer bg-gray-100">
+            <i class="fas fa-file-alt text-gray-400 w-4"></i>
+            <span class="text-sm">快速开始</span>
+          </div>
+          <div class="sidebar-item flex items-center space-x-2 px-3 py-2 rounded cursor-pointer">
+            <i class="fas fa-folder text-gray-400 w-4"></i>
+            <span class="text-sm">安装指南</span>
+          </div>
+          <div class="sidebar-item flex items-center space-x-2 px-3 py-2 rounded cursor-pointer">
+            <i class="fas fa-code text-gray-400 w-4"></i>
+            <span class="text-sm">Skills 开发</span>
+          </div>
+          <div class="sidebar-item flex items-center space-x-2 px-3 py-2 rounded cursor-pointer">
+            <i class="fas fa-cog text-gray-400 w-4"></i>
+            <span class="text-sm">配置详解</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-auto p-4 border-t border-gray-200">
+        <div class="flex items-center space-x-2 px-3 py-2">
+          <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400"></div>
+          <span class="text-sm text-gray-600">个人设置</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="flex-1 overflow-auto">
+      <!-- 顶部 -->
+      <header class="sticky top-0 bg-white/80 backdrop-blur border-b border-gray-200 px-8 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <span class="text-sm text-gray-500">面包屑</span>
+          <span class="text-gray-300">/</span>
+          <span class="text-sm font-medium">快速开始</span>
+        </div>
+        <div class="flex items-center space-x-3">
+          <button class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-share-alt"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- 内容 -->
+      <div class="max-w-4xl mx-auto px-8 py-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">快速开始</h1>
+        <p class="text-lg text-gray-600 mb-8">30 分钟上手 OpenClaw，打造你的专属 AI 助手</p>
+        
+        <!-- 文档列表 -->
+        <div class="space-y-2">
+          <div class="doc-card flex items-center space-x-4 p-3 rounded-lg cursor-pointer">
+            <i class="fas fa-file-alt text-gray-400"></i>
+            <div class="flex-1">
+              <h3 class="font-medium text-gray-900">1. 安装 OpenClaw</h3>
+              <p class="text-sm text-gray-500">支持 Mac、Windows、Linux 三大平台</p>
+            </div>
+            <span class="text-xs text-gray-400">5 分钟</span>
+          </div>
+          
+          <div class="doc-card flex items-center space-x-4 p-3 rounded-lg cursor-pointer">
+            <i class="fas fa-play-circle text-gray-400"></i>
+            <div class="flex-1">
+              <h3 class="font-medium text-gray-900">2. 基础配置</h3>
+              <p class="text-sm text-gray-500">配置 API Key 和基本参数</p>
+            </div>
+            <span class="text-xs text-gray-400">10 分钟</span>
+          </div>
+          
+          <div class="doc-card flex items-center space-x-4 p-3 rounded-lg cursor-pointer">
+            <i class="fas fa-magic text-gray-400"></i>
+            <div class="flex-1">
+              <h3 class="font-medium text-gray-900">3. 第一个 Skill</h3>
+              <p class="text-sm text-gray-500">编写简单的天气查询 Skill</p>
+            </div>
+            <span class="text-xs text-gray-400">15 分钟</span>
+          </div>
+          
+          <div class="doc-card flex items-center space-x-4 p-3 rounded-lg cursor-pointer">
+            <i class="fas fa-rocket text-gray-400"></i>
+            <div class="flex-1">
+              <h3 class="font-medium text-gray-900">4. 进阶技巧</h3>
+              <p class="text-sm text-gray-500">提示词优化和错误处理</p>
+            </div>
+            <span class="text-xs text-gray-400">20 分钟</span>
+          </div>
+        </div>
+        
+        <!-- 最近更新 -->
+        <div class="mt-12">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">最近更新</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div class="text-xs text-gray-400 mb-2">昨天</div>
+              <h3 class="font-medium text-gray-900 mb-1">新增定时任务功能</h3>
+              <p class="text-sm text-gray-500">支持 cron 表达式，自动化你的工作流</p>
+            </div>
+            <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div class="text-xs text-gray-400 mb-2">3天前</div>
+              <h3 class="font-medium text-gray-900 mb-1">Skills 市场上线</h3>
+              <p class="text-sm text-gray-500">发现和分享社区创作的 Skills</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
