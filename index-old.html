@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw 知识库 - 从入门到精通的 AI 助手教程</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #ec4899;
+      --accent: #8b5cf6;
+      --bg: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text: #1e293b;
+      --text-light: #64748b;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* 动态渐变背景 */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      z-index: -1;
+    }
+    
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* 导航栏 */
+    .navbar {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .navbar-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .navbar-nav {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    
+    .navbar-nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .navbar-nav a:hover {
+      color: var(--primary);
+    }
+    
+    .navbar-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.3s;
+    }
+    
+    .navbar-nav a:hover::after {
+      width: 100%;
+    }
+    
+    /* Hero 区域 */
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      color: white;
+    }
+    
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      letter-spacing: -2px;
+    }
+    
+    .hero p {
+      font-size: 1.5rem;
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+    
+    .stat-item {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 2.5rem;
+      border-radius: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 900;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-top: 0.5rem;
+      display: block;
+    }
+    
+    /* 主容器 */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    
+    /* 板块标题 */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .section-header h2 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .section-header p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.2rem;
+    }
+    
+    /* 卡片网格 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    /* 卡片样式 */
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+    
+    .card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+    
+    .card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    
+    .card-meta {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .card-tag {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .card-time {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .card p {
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin: 1.5rem 0;
+    }
+    
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: gap 0.3s;
+    }
+    
+    .card-link:hover {
+      gap: 0.75rem;
+      text-decoration: underline;
+    }
+    
+    /* CTA 区域 */
+    .cta {
+      background: rgba(255,255,255,0.95);
+      border-radius: 24px;
+      padding: 4rem 3rem;
+      text-align: center;
+      margin-top: 4rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .cta h3 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+    
+    .cta p {
+      color: var(--text-light);
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* 页脚 */
+    footer {
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      color: white;
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 4rem;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: underline;
+      margin: 0 0.5rem;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .navbar-nav { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.1rem; }
+      .grid { grid-template-columns: 1fr; }
+      .section-header h2 { font-size: 2rem; }
+      .stat-item { padding: 1rem 1.5rem; }
+      .stat-number { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="navbar-brand">🐾 OpenClaw</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="docs.html">文档中心</a></li>
+        <li><a href="skills.html">Skills 示例</a></li>
+        <li><a href="mindmaps.html">知识脑图</a></li>
+        <li><a href="videos.html">视频资源</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <section class="hero">
+    <h1>🐾 OpenClaw 知识库</h1>
+    <p>从入门到精通 · 傻瓜式教程 · 让你的 AI 助手更强大</p>
+    
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">8</span>
+        <span class="stat-label">核心文档</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">28+</span>
+        <span class="stat-label">Skills</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">10+</span>
+        <span class="stat-label">视频教程</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">完全免费</span>
+      </div>
+    </div>
+  </section>
+  
+  <div class="container">
+    <div class="section-header">
+      <h2>📚 核心教程</h2>
+      <p>8 篇精心编写的教程，从零基础到精通</p>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <h3>安装指南</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐ 简单</span>
+          <span class="card-time">⏱️ 15 分钟</span>
+        </div>
+        <p>零基础安装教程，15 分钟快速部署 OpenClaw 环境。包含 Node.js 安装、依赖配置、渠道接入等完整步骤。</p>
+        <a href="docs/01-安装指南.html" class="card-link">开始学习 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">🚀</span>
+        <h3>快速开始</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐ 简单</span>
+          <span class="card-time">⏱️ 30 分钟</span>
+        </div>
+        <p>发送第一条消息，理解基本概念（Session、Agent、Skill），配置常用功能，排查常见问题。</p>
+        <a href="docs/02-快速开始.html" class="card-link">开始学习 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">⚙️</span>
+        <h3>配置详解</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐⭐ 中等</span>
+          <span class="card-time">⏱️ 1 小时</span>
+        </div>
+        <p>完全掌握配置文件，包括 Gateway 配置、渠道接入（Telegram/微信/Discord）、模型配置、环境变量管理等。</p>
+        <a href="docs/03-配置详解.html" class="card-link">开始学习 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">💬</span>
+        <h3>提示词工程</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐⭐ 中等</span>
+          <span class="card-time">⏱️ 1 小时</span>
+        </div>
+        <p>设计更好的提示词，获得更好的 AI 回复质量。包含角色扮演、思维链、少样本学习等高级技巧。</p>
+        <a href="docs/04-提示词工程.html" class="card-link">开始学习 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">🛠️</span>
+        <h3>Skills 开发</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐⭐⭐ 进阶</span>
+          <span class="card-time">⏱️ 2 小时</span>
+        </div>
+        <p>从 0 到 1 创建自定义 Skills，扩展 AI 能力。包含完整示例代码、调试技巧、最佳实践。</p>
+        <a href="docs/05-Skills 开发.html" class="card-link">开始学习 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">⏰</span>
+        <h3>定时任务</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐⭐ 中等</span>
+          <span class="card-time">⏱️ 45 分钟</span>
+        </div>
+        <p>配置 Cron Jobs，让 AI 自动执行定时任务。包含 at、every、cron 三种调度方式和完整示例。</p>
+        <a href="docs/06-定时任务.html" class="card-link">开始学习 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">💰</span>
+        <h3>Token 优化</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐⭐⭐ 进阶</span>
+          <span class="card-time">⏱️ 1 小时</span>
+        </div>
+        <p>省钱就是赚钱，优化 Token 使用降低 30-60% 成本。包含提示词优化、上下文管理、缓存复用等策略。</p>
+        <a href="docs/07-Token 优化.html" class="card-link">开始学习 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">🏆</span>
+        <h3>最佳实践</h3>
+        <div class="card-meta">
+          <span class="card-tag">⭐⭐ 中等</span>
+          <span class="card-time">⏱️ 1 小时</span>
+        </div>
+        <p>来自社区的经验总结，涵盖架构设计、开发规范、性能优化、安全建议、运维部署、故障排查。</p>
+        <a href="docs/08-最佳实践.html" class="card-link">开始学习 →</a>
+      </div>
+    </div>
+    
+    <div class="section-header">
+      <h2>💻 进阶资源</h2>
+      <p>代码示例、知识脑图、视频教程，全方位学习</p>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <span class="card-icon">🤖</span>
+        <h3>QoderWork 安装教程</h3>
+        <p>利用 QoderWork 桌面 AI 助手的自主规划能力，一键自动化安装 OpenClaw。本地执行、安全沙箱、无需逐步指令。</p>
+        <a href="qoder-install.html" class="card-link">查看教程 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">💻</span>
+        <h3>Skills 示例代码</h3>
+        <p>4 个完整 Skills 示例代码（quote-of-day、todo-list、file-processor、web-scraper）+ 8 个 Qoder 编程 Skills，从入门到进阶完整学习路径。</p>
+        <a href="skills.html" class="card-link">查看代码 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">🧠</span>
+        <h3>知识脑图</h3>
+        <p>3 个精心制作的知识脑图（核心概念、Skills 开发、使用场景），快速建立对 OpenClaw 的整体认知框架。</p>
+        <a href="mindmaps.html" class="card-link">查看脑图 →</a>
+      </div>
+      
+      <div class="card">
+        <span class="card-icon">📺</span>
+        <h3>B 站视频教程</h3>
+        <p>精选 10+ 个 B 站高质量 OpenClaw 教程，包括安装指南、Skills 开发、深度评测等，观看效率优先。</p>
+        <a href="videos.html" class="card-link">观看视频 →</a>
+      </div>
+    </div>
+    
+    <div class="cta">
+      <h3>🚀 准备好开始学习了吗？</h3>
+      <p>从安装指南开始，一步步掌握 OpenClaw 的强大功能</p>
+      <div class="cta-buttons">
+        <a href="docs/01-安装指南.html" class="btn btn-primary">
+          📦 开始安装
+        </a>
+        <a href="docs.html" class="btn btn-secondary">
+          📚 浏览所有文档
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>🐾 OpenClaw 知识库 | MIT License</p>
+    <p style="margin-top: 1rem;">
+      <a href="https://github.com/cchen1-08/openclaw-kb" target="_blank">GitHub</a> · 
+      <a href="https://docs.openclaw.ai" target="_blank">官方文档</a> · 
+      <a href="https://discord.com/invite/clawd" target="_blank">Discord 社区</a>
+    </p>
+  </footer>
+</body>
+</html>

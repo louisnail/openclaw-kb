@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EE5A5A;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="clawGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8585;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B6B;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="eyeGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="80%" style="stop-color:#FFE4E1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFB6C1;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- 龙虾身体 -->
+  <g id="lobster">
+    <!-- 尾巴 -->
+    <ellipse cx="100" cy="160" rx="35" ry="25" fill="url(#bodyGradient)" />
+    <ellipse cx="100" cy="175" rx="25" ry="15" fill="#FF6B6B" />
+    
+    <!-- 身体主体 -->
+    <ellipse cx="100" cy="120" rx="40" ry="45" fill="url(#bodyGradient)" />
+    
+    <!-- 头部 -->
+    <ellipse cx="100" cy="75" rx="35" ry="30" fill="url(#bodyGradient)" />
+    
+    <!-- 左大钳子 -->
+    <g id="leftClaw">
+      <!-- 钳子臂 -->
+      <path d="M 65 85 Q 40 70 25 50 Q 20 45 25 40 Q 30 35 40 45 Q 55 60 70 80" 
+            fill="url(#clawGradient)" stroke="#CC4444" stroke-width="2"/>
+      <!-- 钳子 -->
+      <path d="M 25 50 Q 15 35 20 25 Q 25 20 35 30 Q 40 40 35 50" 
+            fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+      <path d="M 25 50 Q 20 60 25 70 Q 30 75 35 65" 
+            fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+    </g>
+    
+    <!-- 右大钳子 -->
+    <g id="rightClaw">
+      <!-- 钳子臂 -->
+      <path d="M 135 85 Q 160 70 175 50 Q 180 45 175 40 Q 170 35 160 45 Q 145 60 130 80" 
+            fill="url(#clawGradient)" stroke="#CC4444" stroke-width="2"/>
+      <!-- 钳子 -->
+      <path d="M 175 50 Q 185 35 180 25 Q 175 20 165 30 Q 160 40 165 50" 
+            fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+      <path d="M 175 50 Q 180 60 175 70 Q 170 75 165 65" 
+            fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+    </g>
+    
+    <!-- 小钳子/触须 -->
+    <path d="M 75 60 Q 60 40 55 30" fill="none" stroke="#FF6B6B" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 125 60 Q 140 40 145 30" fill="none" stroke="#FF6B6B" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- 眼睛 -->
+    <g id="eyes">
+      <!-- 左眼 -->
+      <circle cx="85" cy="65" r="12" fill="url(#eyeGradient)" stroke="#CC4444" stroke-width="2"/>
+      <circle cx="87" cy="63" r="5" fill="#2C3E50"/>
+      <circle cx="88" cy="61" r="2" fill="#FFFFFF"/>
+      
+      <!-- 右眼 -->
+      <circle cx="115" cy="65" r="12" fill="url(#eyeGradient)" stroke="#CC4444" stroke-width="2"/>
+      <circle cx="113" cy="63" r="5" fill="#2C3E50"/>
+      <circle cx="114" cy="61" r="2" fill="#FFFFFF"/>
+    </g>
+    
+    <!-- 嘴巴 -->
+    <path d="M 95 85 Q 100 90 105 85" fill="none" stroke="#CC4444" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- 腿 -->
+    <g id="legs">
+      <path d="M 65 110 Q 50 125 45 135" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 70 125 Q 55 140 50 150" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 130 110 Q 150 125 155 135" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 130 125 Q 145 140 150 150" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    
+    <!-- 高光效果 -->
+    <ellipse cx="90" cy="100" rx="15" ry="10" fill="#FFFFFF" opacity="0.3"/>
+    <ellipse cx="105" cy="70" rx="8" ry="6" fill="#FFFFFF" opacity="0.4"/>
+  </g>
+</svg>
