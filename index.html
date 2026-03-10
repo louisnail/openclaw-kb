@@ -1,202 +1,311 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OpenClaw 知识库 - 方案1：极客时间风格</title>
+  <title>OpenClaw - 用AI重塑你的工作效率</title>
+  <meta name="description" content="OpenClaw 知识库 - 从入门到精通，掌握AI助手开发">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    .course-card {
-      transition: all 0.3s ease;
-      border: 1px solid #e5e7eb;
-    }
-    .course-card:hover {
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-      transform: translateY(-2px);
-    }
-    .tag-active {
-      background: #FF6B6B;
-      color: white;
-    }
-  </style>
-</head>
-<body class="bg-white text-gray-800">
-  <!-- 简洁导航 -->
-  <nav class="border-b border-gray-200">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-8">
-        <a href="index.html" class="flex items-center space-x-2">
-          <div class="w-8 h-8">
-            <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
-          </div>
-          <span class="text-xl font-bold text-gray-900">OpenClaw</span>
-        </a>
-        <div class="flex space-x-6 text-sm">
-          <a href="#" class="text-gray-900 font-medium">首页</a>
-          <a href="#" class="text-gray-500 hover:text-gray-900">课程</a>
-          <a href="#" class="text-gray-500 hover:text-gray-900">专栏</a>
-          <a href="#" class="text-gray-500 hover:text-gray-900">视频</a>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4">
-        <input type="text" placeholder="搜索..." class="px-4 py-2 rounded-full bg-gray-100 text-sm w-48">
-        <button onclick="showLoginModal()" class="px-4 py-2 rounded-full bg-primary text-white text-sm hover:bg-primary-dark transition-colors">登录</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- 双维度筛选 -->
-  <div class="bg-gray-50 border-b border-gray-200">
-    <div class="max-w-6xl mx-auto px-4 py-4">
-      <div class="flex items-center space-x-2 mb-3">
-        <span class="text-sm text-gray-500">方向：</span>
-        <button class="tag-active px-3 py-1 rounded-full text-sm">全部</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">前端</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">后端</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">AI</button>
-      </div>
-      <div class="flex items-center space-x-2">
-        <span class="text-sm text-gray-500">分类：</span>
-        <button class="tag-active px-3 py-1 rounded-full text-sm">全部</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">入门</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">进阶</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">实战</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 课程列表 -->
-  <main class="max-w-6xl mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- 课程卡片 1 -->
-      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer">
-        <div class="aspect-video bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-          <i class="fas fa-play-circle text-5xl text-white/80"></i>
-        </div>
-        <div class="p-4 cursor-pointer" onclick="openDoc('install')">
-          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">OpenClaw 入门到精通：打造你的 AI 助手</h3>
-          <p class="text-sm text-gray-500 mb-3">从安装到部署，完整学习路径</p>
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-orange-500 font-medium">免费</span>
-            <span class="text-gray-400">1.2k 人已学</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 课程卡片 2 -->
-      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer">
-        <div class="aspect-video bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
-          <i class="fas fa-code text-5xl text-white/80"></i>
-        </div>
-        <div class="p-4 cursor-pointer" onclick="openDoc('skills')">
-          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">Skills 开发实战</h3>
-          <p class="text-sm text-gray-500 mb-3">编写高质量 Skills 的最佳实践</p>
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-orange-500 font-medium">¥49</span>
-            <span class="text-gray-400">856 人已学</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 课程卡片 3 -->
-      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer">
-        <div class="aspect-video bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
-          <i class="fas fa-brain text-5xl text-white/80"></i>
-        </div>
-        <div class="p-4 cursor-pointer" onclick="openDoc('prompt')">
-          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">Prompt Engineering 完全指南</h3>
-          <p class="text-sm text-gray-500 mb-3">掌握提示词工程的核心技巧</p>
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-orange-500 font-medium">¥99</span>
-            <span class="text-gray-400">2.3k 人已学</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- 登录弹窗 -->
-  <div id="authModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeAuthModal()"></div>
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4">
-      <div class="bg-white rounded-2xl p-8 shadow-2xl relative">
-        <button onclick="closeAuthModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100">
-          <i class="fas fa-times text-gray-500"></i>
-        </button>
-        <div class="text-center mb-6">
-          <div class="w-20 h-20 mx-auto mb-4">
-            <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
-          </div>
-          <h2 class="text-2xl font-bold text-gray-900">欢迎回来</h2>
-          <p class="text-gray-500 mt-1">登录 OpenClaw 知识库</p>
-        </div>
-        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
-          <button id="phoneTab" class="flex-1 py-2 rounded-lg text-sm font-medium bg-white shadow-sm" onclick="switchAuthTab('phone')">手机号</button>
-          <button id="emailTab" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-500" onclick="switchAuthTab('email')">邮箱</button>
-        </div>
-        <form id="phoneForm" class="space-y-4">
-          <input type="tel" placeholder="请输入手机号" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
-          <div class="flex gap-2">
-            <input type="text" placeholder="验证码" class="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
-            <button type="button" class="px-4 py-3 rounded-xl border border-primary text-primary hover:bg-primary hover:text-white text-sm">获取验证码</button>
-          </div>
-          <button type="submit" class="w-full py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark">登录</button>
-        </form>
-        <form id="emailForm" class="space-y-4 hidden">
-          <input type="email" placeholder="请输入邮箱" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
-          <input type="password" placeholder="请输入密码" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
-          <button type="submit" class="w-full py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark">登录</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+          },
           colors: {
-            primary: { DEFAULT: '#FF6B6B', dark: '#EE5A5A' }
-          }
-        }
-      }
-    };
-
-    function showLoginModal() {
-      document.getElementById('authModal').classList.remove('hidden');
-    }
-
-    function closeAuthModal() {
-      document.getElementById('authModal').classList.add('hidden');
-    }
-
-    function switchAuthTab(tab) {
-      const phoneTab = document.getElementById('phoneTab');
-      const emailTab = document.getElementById('emailTab');
-      const phoneForm = document.getElementById('phoneForm');
-      const emailForm = document.getElementById('emailForm');
-      
-      if (tab === 'phone') {
-        phoneTab.classList.add('bg-white', 'shadow-sm');
-        phoneTab.classList.remove('text-gray-500');
-        emailTab.classList.remove('bg-white', 'shadow-sm');
-        emailTab.classList.add('text-gray-500');
-        phoneForm.classList.remove('hidden');
-        emailForm.classList.add('hidden');
-      } else {
-        emailTab.classList.add('bg-white', 'shadow-sm');
-        emailTab.classList.remove('text-gray-500');
-        phoneTab.classList.remove('bg-white', 'shadow-sm');
-        phoneTab.classList.add('text-gray-500');
-        emailForm.classList.remove('hidden');
-        phoneForm.classList.add('hidden');
-      }
-    }
-
-    function openDoc(docId) {
-      window.location.href = 'doc-viewer.html?id=' + docId;
+            primary: { DEFAULT: '#FF6B6B', dark: '#EE5A5A' },
+          },
+        },
+      },
     }
   </script>
+  
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 50%, #FFB4B4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-gradient {
+      background: radial-gradient(ellipse at top, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at bottom right, rgba(78, 205, 196, 0.1) 0%, transparent 40%);
+    }
+    
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 1s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .feature-card {
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+  
+  <!-- Hero Section -->
+  <section class="min-h-screen flex flex-col items-center justify-center relative hero-gradient px-4">
+    <!-- 背景装饰 -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-teal-400/5 rounded-full blur-3xl"></div>
+    
+    <!-- 主要内容 -->
+    <div class="text-center max-w-4xl mx-auto fade-in">
+      <!-- Logo -->
+      <div class="w-24 h-24 mx-auto mb-8 float-animation">
+        <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
+      </div>
+      
+      <!-- 主标题 -->
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+        <span class="gradient-text">OpenClaw</span>
+      </h1>
+      
+      <!-- 副标题 -->
+      <p class="text-xl md:text-2xl text-gray-600 mb-4 font-light">
+        用AI重塑你的工作效率
+      </p>
+      
+      <!-- 描述 -->
+      <p class="text-base text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+        从入门到精通，掌握AI助手开发。探索Skills、定时任务、Token优化等核心技术，
+        让AI成为你工作的得力助手。
+      </p>
+      
+      <!-- CTA 按钮 -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="kb.html" class="group px-8 py-4 bg-primary text-white rounded-full font-medium text-lg hover:bg-primary-dark transition-all hover:shadow-lg hover:shadow-primary/30 flex items-center gap-2">
+          立即体验
+          <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+        </a>
+        <a href="docs/01-安装指南.md" class="px-8 py-4 text-gray-600 hover:text-gray-900 font-medium text-lg transition-colors">
+          查看文档
+        </a>
+      </div>
+      
+      <!-- 数据统计 -->
+      <div class="flex items-center justify-center gap-12 text-sm text-gray-500">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-gray-900">8+</div>
+          <div>核心文档</div>
+        </div>
+        <div class="w-px h-10 bg-gray-200"></div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-gray-900">28</div>
+          <div>Skills示例</div>
+        </div>
+        <div class="w-px h-10 bg-gray-200"></div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-gray-900">100%</div>
+          <div>开源免费</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 底部滚动提示 -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <i class="fas fa-chevron-down text-gray-400 text-xl"></i>
+    </div>
+  </section>
+  
+  <!-- Features Section -->
+  <section class="py-24 px-4 bg-gray-50/50">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">核心功能</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          一站式AI助手开发平台，从安装配置到高级技巧，全面覆盖
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="feature-card bg-white rounded-2xl p-8 border border-gray-100">
+          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+            <i class="fas fa-rocket text-primary text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">快速入门</h3>
+          <p class="text-gray-600 leading-relaxed">
+            30分钟上手OpenClaw，从安装到第一个Skill，完整的学习路径让你快速入门。
+          </p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="feature-card bg-white rounded-2xl p-8 border border-gray-100">
+          <div class="w-12 h-12 bg-teal-500/10 rounded-xl flex items-center justify-center mb-6">
+            <i class="fas fa-puzzle-piece text-teal-500 text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Skills开发</h3>
+          <p class="text-gray-600 leading-relaxed">
+            学习如何编写高质量的Skills，扩展AI助手的能力，实现个性化功能定制。
+          </p>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="feature-card bg-white rounded-2xl p-8 border border-gray-100">
+          <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6">
+            <i class="fas fa-brain text-purple-500 text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">提示词工程</h3>
+          <p class="text-gray-600 leading-relaxed">
+            掌握Prompt Engineering核心技巧，让AI更懂你的需求，提升交互效率。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Content Preview Section -->
+  <section class="py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">精选内容</h2>
+        <p class="text-gray-600">从入门到精通的完整知识体系</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Doc 1 -->
+        <a href="doc-viewer.html?id=install" class="group block">
+          <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-primary/30 transition-all hover:shadow-lg">
+            <div class="aspect-[4/3] bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+              <i class="fas fa-download text-4xl text-white/80 group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div class="p-5">
+              <span class="text-xs text-primary font-medium">入门</span>
+              <h3 class="font-semibold mt-2 group-hover:text-primary transition-colors">安装指南</h3>
+              <p class="text-sm text-gray-500 mt-1">快速安装OpenClaw</p>
+            </div>
+          </div>
+        </a>
+        
+        <!-- Doc 2 -->
+        <a href="doc-viewer.html?id=skills" class="group block">
+          <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-primary/30 transition-all hover:shadow-lg">
+            <div class="aspect-[4/3] bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+              <i class="fas fa-code text-4xl text-white/80 group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div class="p-5">
+              <span class="text-xs text-teal-500 font-medium">进阶</span>
+              <h3 class="font-semibold mt-2 group-hover:text-primary transition-colors">Skills开发</h3>
+              <p class="text-sm text-gray-500 mt-1">编写自定义Skills</p>
+            </div>
+          </div>
+        </a>
+        
+        <!-- Doc 3 -->
+        <a href="doc-viewer.html?id=prompt" class="group block">
+          <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-primary/30 transition-all hover:shadow-lg">
+            <div class="aspect-[4/3] bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+              <i class="fas fa-brain text-4xl text-white/80 group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div class="p-5">
+              <span class="text-xs text-purple-500 font-medium">技巧</span>
+              <h3 class="font-semibold mt-2 group-hover:text-primary transition-colors">提示词工程</h3>
+              <p class="text-sm text-gray-500 mt-1">优化AI交互</p>
+            </div>
+          </div>
+        </a>
+        
+        <!-- Doc 4 -->
+        <a href="doc-viewer.html?id=token" class="group block">
+          <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-primary/30 transition-all hover:shadow-lg">
+            <div class="aspect-[4/3] bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+              <i class="fas fa-coins text-4xl text-white/80 group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div class="p-5">
+              <span class="text-xs text-orange-500 font-medium">优化</span>
+              <h3 class="font-semibold mt-2 group-hover:text-primary transition-colors">Token优化</h3>
+              <p class="text-sm text-gray-500 mt-1">降低成本提升效率</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="kb.html" class="inline-flex items-center gap-2 text-primary font-medium hover:underline">
+          查看全部内容
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA Section -->
+  <section class="py-24 px-4 bg-gray-900 text-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">开始你的AI之旅</h2>
+      <p class="text-gray-400 mb-8 max-w-2xl mx-auto">
+        加入OpenClaw社区，与数千开发者一起探索AI的无限可能
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="kb.html" class="px-8 py-4 bg-primary text-white rounded-full font-medium hover:bg-primary-dark transition-colors">
+          开始学习
+        </a>
+        <a href="https://github.com/louisnail/openclaw-kb" target="_blank" class="px-8 py-4 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-colors flex items-center gap-2">
+          <i class="fab fa-github"></i>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="py-8 px-4 border-t border-gray-100">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8">
+          <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
+        </div>
+        <span class="font-semibold">OpenClaw</span>
+      </div>
+      <p class="text-sm text-gray-500">
+        © 2024 OpenClaw. 开源免费，自由使用。
+      </p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <i class="fab fa-github text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <i class="fab fa-twitter text-xl"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </body>
 </html>

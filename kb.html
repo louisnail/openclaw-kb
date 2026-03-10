@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知识库 - OpenClaw</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'] },
+          colors: { primary: { DEFAULT: '#FF6B6B', dark: '#EE5A5A' } },
+        },
+      },
+    }
+  </script>
+  <style>
+    .course-card { transition: all 0.3s ease; border: 1px solid #e5e7eb; }
+    .course-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .tag-active { background: #FF6B6B; color: white; }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+  <!-- 简洁导航 -->
+  <nav class="border-b border-gray-200 sticky top-0 bg-white/95 backdrop-blur z-50">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="w-8 h-8">
+            <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
+          </div>
+          <span class="text-xl font-bold text-gray-900">OpenClaw</span>
+        </a>
+        <div class="hidden md:flex space-x-6 text-sm">
+          <a href="index.html" class="text-gray-500 hover:text-gray-900">首页</a>
+          <a href="kb.html" class="text-gray-900 font-medium">知识库</a>
+          <a href="doc-viewer.html?id=skills" class="text-gray-500 hover:text-gray-900">Skills</a>
+          <a href="user-center.html" class="text-gray-500 hover:text-gray-900">我的</a>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="relative hidden sm:block">
+          <input type="text" placeholder="搜索..." class="px-4 py-2 pl-10 rounded-full bg-gray-100 text-sm w-48 focus:outline-none focus:ring-2 focus:ring-primary/20">
+          <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+        </div>
+        <button onclick="showLoginModal()" class="px-5 py-2 rounded-full bg-primary text-white text-sm hover:bg-primary-dark transition-colors">登录</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 双维度筛选 -->
+  <div class="bg-gray-50 border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex items-center space-x-2 mb-3 flex-wrap gap-y-2">
+        <span class="text-sm text-gray-500">方向：</span>
+        <button class="tag-active px-3 py-1 rounded-full text-sm">全部</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">入门</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">进阶</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">实战</button>
+      </div>
+      <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+        <span class="text-sm text-gray-500">分类：</span>
+        <button class="tag-active px-3 py-1 rounded-full text-sm">全部</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">文档</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">视频</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">教程</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 课程列表 -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- 课程卡片 1 -->
+      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('install')">
+        <div class="aspect-video bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+          <i class="fas fa-download text-5xl text-white/80"></i>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs bg-blue-100 text-blue-600">入门</span>
+            <span class="text-xs text-gray-400">文档</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">安装指南</h3>
+          <p class="text-sm text-gray-500 mb-3">快速安装OpenClaw，支持Mac、Windows、Linux</p>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-orange-500 font-medium">免费</span>
+            <span class="text-gray-400">1.2k 人已学</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 课程卡片 2 -->
+      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('quickstart')">
+        <div class="aspect-video bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+          <i class="fas fa-rocket text-5xl text-white/80"></i>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs bg-green-100 text-green-600">入门</span>
+            <span class="text-xs text-gray-400">文档</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">快速开始</h3>
+          <p class="text-sm text-gray-500 mb-3">30分钟上手，完成第一个AI助手配置</p>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-orange-500 font-medium">免费</span>
+            <span class="text-gray-400">856 人已学</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 课程卡片 3 -->
+      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('config')">
+        <div class="aspect-video bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+          <i class="fas fa-cog text-5xl text-white/80"></i>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs bg-purple-100 text-purple-600">进阶</span>
+            <span class="text-xs text-gray-400">文档</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">配置详解</h3>
+          <p class="text-sm text-gray-500 mb-3">深入了解配置文件，自定义你的AI助手</p>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-orange-500 font-medium">免费</span>
+            <span class="text-gray-400">2.3k 人已学</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 课程卡片 4 -->
+      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('prompt')">
+        <div class="aspect-video bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
+          <i class="fas fa-brain text-5xl text-white/80"></i>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs bg-pink-100 text-pink-600">进阶</span>
+            <span class="text-xs text-gray-400">文档</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">提示词工程</h3>
+          <p class="text-sm text-gray-500 mb-3">掌握Prompt Engineering核心技巧</p>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-orange-500 font-medium">免费</span>
+            <span class="text-gray-400">1.8k 人已学</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 课程卡片 5 -->
+      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('skills')">
+        <div class="aspect-video bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
+          <i class="fas fa-code text-5xl text-white/80"></i>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs bg-orange-100 text-orange-600">实战</span>
+            <span class="text-xs text-gray-400">文档</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">Skills开发</h3>
+          <p class="text-sm text-gray-500 mb-3">编写高质量Skills的最佳实践</p>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-orange-500 font-medium">免费</span>
+            <span class="text-gray-400">3.1k 人已学</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 课程卡片 6 -->
+      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('cron')">
+        <div class="aspect-video bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+          <i class="fas fa-clock text-5xl text-white/80"></i>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs bg-cyan-100 text-cyan-600">进阶</span>
+            <span class="text-xs text-gray-400">文档</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition-colors">定时任务</h3>
+          <p class="text-sm text-gray-500 mb-3">使用Cron表达式自动化你的工作流</p>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-orange-500 font-medium">免费</span>
+            <span class="text-gray-400">967 人已学</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 登录弹窗 -->
+  <div id="authModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeAuthModal()"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4">
+      <div class="bg-white rounded-2xl p-8 shadow-2xl relative">
+        <button onclick="closeAuthModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100">
+          <i class="fas fa-times text-gray-500"></i>
+        </button>
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 mx-auto mb-4">
+            <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900">欢迎回来</h2>
+          <p class="text-gray-500 mt-1">登录 OpenClaw 知识库</p>
+        </div>
+        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
+          <button id="phoneTab" class="flex-1 py-2 rounded-lg text-sm font-medium bg-white shadow-sm" onclick="switchAuthTab('phone')">手机号</button>
+          <button id="emailTab" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-500" onclick="switchAuthTab('email')">邮箱</button>
+        </div>
+        <form id="phoneForm" class="space-y-4">
+          <input type="tel" placeholder="请输入手机号" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
+          <div class="flex gap-2">
+            <input type="text" placeholder="验证码" class="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
+            <button type="button" class="px-4 py-3 rounded-xl border border-primary text-primary hover:bg-primary hover:text-white text-sm">获取验证码</button>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark">登录</button>
+        </form>
+        <form id="emailForm" class="space-y-4 hidden">
+          <input type="email" placeholder="请输入邮箱" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
+          <input type="password" placeholder="请输入密码" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-primary">
+          <button type="submit" class="w-full py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark">登录</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showLoginModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+
+    function switchAuthTab(tab) {
+      const phoneTab = document.getElementById('phoneTab');
+      const emailTab = document.getElementById('emailTab');
+      const phoneForm = document.getElementById('phoneForm');
+      const emailForm = document.getElementById('emailForm');
+      
+      if (tab === 'phone') {
+        phoneTab.classList.add('bg-white', 'shadow-sm');
+        phoneTab.classList.remove('text-gray-500');
+        emailTab.classList.remove('bg-white', 'shadow-sm');
+        emailTab.classList.add('text-gray-500');
+        phoneForm.classList.remove('hidden');
+        emailForm.classList.add('hidden');
+      } else {
+        emailTab.classList.add('bg-white', 'shadow-sm');
+        emailTab.classList.remove('text-gray-500');
+        phoneTab.classList.remove('bg-white', 'shadow-sm');
+        phoneTab.classList.add('text-gray-500');
+        emailForm.classList.remove('hidden');
+        phoneForm.classList.add('hidden');
+      }
+    }
+
+    function openDoc(docId) {
+      window.location.href = 'doc-viewer.html?id=' + docId;
+    }
+  </script>
+</body>
+</html>
