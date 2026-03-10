@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文档详情 - OpenClaw 知识库</title>
+  <meta name="description" content="OpenClaw 知识库文档详情页">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  
+  <!-- Video.js -->
+  <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
+  <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#FF6B6B', dark: '#EE5A5A', light: '#FF8585' },
+            secondary: '#4ECDC4',
+            accent: '#FFE66D',
+            dark: { primary: '#0F172A', secondary: '#1E293B', tertiary: '#334155' }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .dark .glass {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .gradient-hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .like-btn.active {
+      color: #FF6B6B;
+      animation: likeAnimation 0.3s ease;
+    }
+    @keyframes likeAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    .pdf-container {
+      width: 100%;
+      height: 800px;
+      overflow: auto;
+      background: #f5f5f5;
+    }
+    .dark .pdf-container {
+      background: #1e293b;
+    }
+    .excel-container {
+      width: 100%;
+      height: 800px;
+      overflow: auto;
+    }
+    .video-container {
+      width: 100%;
+      aspect-ratio: 16/9;
+    }
+    .toc-item.active {
+      background: rgba(255, 107, 107, 0.1);
+      color: #FF6B6B;
+      border-left: 3px solid #FF6B6B;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-gray-800 dark:text-gray-200 transition-colors duration-300">
+  <!-- 动态渐变背景 -->
+  <div class="fixed inset-0 gradient-hero -z-10"></div>
+  
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-3">
+          <a href="index.html" class="flex items-center space-x-2">
+            <div class="w-10 h-10">
+              <svg viewBox="0 0 200 200" class="w-full h-full">
+                <ellipse cx="100" cy="140" rx="25" ry="18" fill="#FF6B6B"/>
+                <ellipse cx="100" cy="100" rx="30" ry="35" fill="#FF6B6B"/>
+                <ellipse cx="100" cy="65" rx="25" ry="22" fill="#FF6B6B"/>
+                <circle cx="88" cy="60" r="8" fill="#FFFFFF" stroke="#CC4444" stroke-width="1"/>
+                <circle cx="89" cy="59" r="3" fill="#2C3E50"/>
+                <circle cx="112" cy="60" r="8" fill="#FFFFFF" stroke="#CC4444" stroke-width="1"/>
+                <circle cx="111" cy="59" r="3" fill="#2C3E50"/>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-gray-800 dark:text-white">OpenClaw</span>
+          </a>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-moon dark:hidden text-gray-600"></i>
+            <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+          </button>
+          <button onclick="showLoginModal()" class="px-4 py-2 rounded-full gradient-hot text-white font-medium hover:opacity-90 transition-opacity">
+            登录
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- 主内容区 -->
+  <main class="pt-20 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 文档头部 -->
+      <div class="glass rounded-2xl p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 rounded-full bg-primary/20 text-primary text-xs">📚 教程</span>
+              <span class="text-xs text-gray-500">⭐ 入门</span>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">OpenClaw 安装指南</h1>
+            <p class="text-gray-600 dark:text-gray-400">详细的安装步骤，支持 Mac、Windows、Linux 三大平台</p>
+          </div>
+          
+          <!-- 操作按钮 -->
+          <div class="flex items-center gap-3">
+            <button onclick="toggleLike(this)" class="like-btn flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 hover:border-primary hover:text-primary transition-all">
+              <i class="fas fa-heart"></i>
+              <span id="likeCount">567</span>
+            </button>
+            <button onclick="shareDoc()" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 hover:border-secondary hover:text-secondary transition-all">
+              <i class="fas fa-share-alt"></i>
+              分享
+            </button>
+            <button onclick="downloadDoc()" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 hover:border-accent hover:text-yellow-600 transition-all">
+              <i class="fas fa-download"></i>
+              下载
+            </button>
+          </div>
+        </div>
+        
+        <!-- 统计信息 -->
+        <div class="flex flex-wrap items-center gap-6 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <i class="fas fa-eye"></i>
+            <span>2.3k 阅读</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <i class="fas fa-heart text-primary"></i>
+            <span>567 点赞</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <i class="fas fa-comment"></i>
+            <span>89 评论</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <i class="fas fa-download"></i>
+            <span>456 下载</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <i class="fas fa-calendar"></i>
+            <span>2026-03-10 发布</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 阅读器区域 -->
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <!-- 左侧目录 -->
+        <div class="lg:col-span-1">
+          <div class="glass rounded-2xl p-4 sticky top-24">
+            <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+              <i class="fas fa-list mr-2 text-primary"></i>目录
+            </h3>
+            <nav class="space-y-1" id="toc">
+              <a href="#section1" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors active">
+                1. 简介
+              </a>
+              <a href="#section2" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                2. Mac 安装
+              </a>
+              <a href="#section3" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                3. Windows 安装
+              </a>
+              <a href="#section4" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                4. Linux 安装
+              </a>
+              <a href="#section5" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                5. 配置说明
+              </a>
+            </nav>
+          </div>
+        </div>
+        
+        <!-- 中间阅读器 -->
+        <div class="lg:col-span-2">
+          <div class="glass rounded-2xl overflow-hidden">
+            <!-- PDF 阅读器 -->
+            <div id="pdfViewer" class="pdf-container">
+              <div class="flex items-center justify-center h-full text-gray-500">
+                <div class="text-center">
+                  <i class="fas fa-file-pdf text-6xl mb-4"></i>
+                  <p>PDF 阅读器加载中...</p>
+                  <p class="text-sm mt-2">（演示模式：实际使用时需要配置 PDF.js）</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Excel 阅读器（隐藏） -->
+            <div id="excelViewer" class="excel-container hidden">
+              <div class="p-8">
+                <table class="w-full border-collapse">
+                  <thead>
+                    <tr class="bg-gray-100 dark:bg-gray-800">
+                      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">步骤</th>
+                      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">命令</th>
+                      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">说明</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">1</td>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-sm">npm install</td>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">安装依赖</td>
+                    </tr>
+                    <tr class="bg-gray-50 dark:bg-gray-900/50">
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">2</td>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-sm">npm run dev</td>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">启动开发服务器</td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">3</td>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-sm">npm run build</td>
+                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">构建生产版本</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- 视频播放器（隐藏） -->
+            <div id="videoViewer" class="video-container hidden">
+              <video
+                id="my-video"
+                class="video-js vjs-big-play-centered"
+                controls
+                preload="auto"
+                poster="assets/video-poster.jpg"
+                data-setup="{}"
+              >
+                <source src="assets/demo-video.mp4" type="video/mp4" />
+                <p class="vjs-no-js">
+                  要查看此视频，请启用 JavaScript，并考虑升级到支持 HTML5 视频的浏览器
+                </p>
+              </video>
+            </div>
+            
+            <!-- 阅读器控制栏 -->
+            <div class="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+              <div class="flex items-center gap-2">
+                <button onclick="prevPage()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <span class="text-sm text-gray-600 dark:text-gray-400">
+                  第 <span id="currentPage">1</span> / <span id="totalPages">10</span> 页
+                </span>
+                <button onclick="nextPage()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="zoomOut()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <span class="text-sm text-gray-600 dark:text-gray-400"><span id="zoomLevel">100</span>%</span>
+                <button onclick="zoomIn()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 阅读进度 -->
+          <div class="mt-4 glass rounded-xl p-4">
+            <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+              <span>阅读进度</span>
+              <span id="readProgress">0%</span>
+            </div>
+            <div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div id="progressBar" class="h-full gradient-hot rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 右侧相关信息 -->
+        <div class="lg:col-span-1 space-y-6">
+          <!-- 作者信息 -->
+          <div class="glass rounded-2xl p-4">
+            <h3 class="font-bold text-gray-800 dark:text-white mb-4">作者</h3>
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+                O
+              </div>
+              <div>
+                <p class="font-medium text-gray-800 dark:text-white">OpenClaw 官方</p>
+                <p class="text-sm text-gray-500">12 个文档</p>
+              </div>
+            </div>
+            <button class="w-full mt-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary hover:text-white transition-colors">
+              <i class="fas fa-plus mr-2"></i>关注
+            </button>
+          </div>
+          
+          <!-- 最近阅读 -->
+          <div class="glass rounded-2xl p-4">
+            <h3 class="font-bold text-gray-800 dark:text-white mb-4">最近阅读</h3>
+            <div class="flex -space-x-2 mb-3">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-red-400 to-pink-400 border-2 border-white dark:border-gray-800"></div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 border-2 border-white dark:border-gray-800"></div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-teal-400 border-2 border-white dark:border-gray-800"></div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 border-2 border-white dark:border-gray-800"></div>
+              <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-white dark:border-gray-800 flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                +45
+              </div>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">等 45 人阅读过</p>
+          </div>
+          
+          <!-- 相关文档 -->
+          <div class="glass rounded-2xl p-4">
+            <h3 class="font-bold text-gray-800 dark:text-white mb-4">相关文档</h3>
+            <div class="space-y-3">
+              <a href="#" class="block group">
+                <div class="flex items-start gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-blue-400 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-rocket text-white"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary transition-colors">快速开始</h4>
+                    <p class="text-xs text-gray-500">30分钟上手</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="block group">
+                <div class="flex items-start gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-400 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-code text-white"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary transition-colors">Skills 开发</h4>
+                    <p class="text-xs text-gray-500">编写第一个 Skill</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <!-- 热门标签 -->
+          <div class="glass rounded-2xl p-4">
+            <h3 class="font-bold text-gray-800 dark:text-white mb-4">热门标签</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">安装</span>
+              <span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-sm">入门</span>
+              <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-500 text-sm">教程</span>
+              <span class="px-3 py-1 rounded-full bg-accent/10 text-yellow-600 text-sm">配置</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 评论区 -->
+      <div class="mt-8 glass rounded-2xl p-6">
+        <h3 class="font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+          <i class="fas fa-comments mr-2 text-primary"></i>评论 (89)
+        </h3>
+        
+        <!-- 评论输入框 -->
+        <div class="flex gap-4 mb-6">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex-shrink-0"></div>
+          <div class="flex-1">
+            <textarea rows="3" placeholder="写下你的评论..." class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary resize-none"></textarea>
+            <div class="flex justify-end mt-2">
+              <button class="px-6 py-2 rounded-xl gradient-hot text-white font-medium hover:opacity-90 transition-opacity">
+                发表评论
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 评论列表 -->
+        <div class="space-y-4">
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex-shrink-0"></div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-medium text-gray-800 dark:text-white">张三</span>
+                <span class="text-xs text-gray-500">2小时前</span>
+              </div>
+              <p class="text-gray-600 dark:text-gray-400">非常详细的教程，帮助很大！</p>
+              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                <button class="hover:text-primary transition-colors">
+                  <i class="fas fa-thumbs-up mr-1"></i>23
+                </button>
+                <button class="hover:text-primary transition-colors">回复</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 flex-shrink-0"></div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-medium text-gray-800 dark:text-white">李四</span>
+                <span class="text-xs text-gray-500">5小时前</span>
+              </div>
+              <p class="text-gray-600 dark:text-gray-400">Mac 安装部分有点疑问，M1 芯片需要额外配置吗？</p>
+              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                <button class="hover:text-primary transition-colors">
+                  <i class="fas fa-thumbs-up mr-1"></i>15
+                </button>
+                <button class="hover:text-primary transition-colors">回复</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    // 暗黑模式切换
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+    }
+    
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+    
+    // 点赞功能
+    let liked = false;
+    let likeCount = 567;
+    
+    function toggleLike(btn) {
+      liked = !liked;
+      btn.classList.toggle('active');
+      
+      if (liked) {
+        likeCount++;
+        btn.innerHTML = `<i class="fas fa-heart"></i><span>${likeCount}</span>`;
+      } else {
+        likeCount--;
+        btn.innerHTML = `<i class="far fa-heart"></i><span>${likeCount}</span>`;
+      }
+      
+      // 保存到本地存储
+      localStorage.setItem('doc_liked', liked);
+      localStorage.setItem('doc_likeCount', likeCount);
+    }
+    
+    // 检查之前的点赞状态
+    if (localStorage.getItem('doc_liked') === 'true') {
+      liked = true;
+      document.querySelector('.like-btn').classList.add('active');
+    }
+    
+    // 分享功能
+    function shareDoc() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'OpenClaw 安装指南',
+          text: '详细的安装步骤，支持多平台',
+          url: window.location.href
+        });
+      } else {
+        // 复制链接
+        navigator.clipboard.writeText(window.location.href);
+        alert('链接已复制到剪贴板');
+      }
+    }
+    
+    // 下载功能
+    function downloadDoc() {
+      alert('开始下载...');
+    }
+    
+    // 阅读器控制
+    let currentPage = 1;
+    let totalPages = 10;
+    let zoomLevel = 100;
+    let readProgress = 0;
+    
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        updatePageDisplay();
+        updateProgress();
+      }
+    }
+    
+    function nextPage() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        updatePageDisplay();
+        updateProgress();
+      }
+    }
+    
+    function updatePageDisplay() {
+      document.getElementById('currentPage').textContent = currentPage;
+    }
+    
+    function zoomIn() {
+      if (zoomLevel < 200) {
+        zoomLevel += 10;
+        updateZoomDisplay();
+      }
+    }
+    
+    function zoomOut() {
+      if (zoomLevel > 50) {
+        zoomLevel -= 10;
+        updateZoomDisplay();
+      }
+    }
+    
+    function updateZoomDisplay() {
+      document.getElementById('zoomLevel').textContent = zoomLevel;
+    }
+    
+    function updateProgress() {
+      readProgress = Math.round((currentPage / totalPages) * 100);
+      document.getElementById('readProgress').textContent = readProgress + '%';
+      document.getElementById('progressBar').style.width = readProgress + '%';
+    }
+    
+    // 目录高亮
+    document.querySelectorAll('.toc-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        document.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+    
+    // 模拟阅读进度
+    setTimeout(() => {
+      updateProgress();
+    }, 1000);
+    
+    // 登录弹窗
+    function showLoginModal() {
+      alert('登录功能开发中...');
+    }
+  </script>
+</body>
+</html>
