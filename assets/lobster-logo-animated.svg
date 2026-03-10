@@ -1,0 +1,232 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" id="lobsterLogo">
+  <defs>
+    <!-- 身体渐变 -->
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EE5A5A;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 钳子渐变 -->
+    <linearGradient id="clawGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8585;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B6B;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 眼睛高光 -->
+    <radialGradient id="eyeGrad" cx="30%" cy="30%" r="50%">
+      <stop offset="0%" style="stop-color:#FFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFE4E4;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 整体容器 -->
+  <g class="lobster-wrapper">
+    <!-- 尾巴 -->
+    <g class="tail">
+      <ellipse cx="100" cy="155" rx="20" ry="14" fill="url(#bodyGrad)" opacity="0.9"/>
+      <ellipse cx="100" cy="142" rx="22" ry="16" fill="url(#bodyGrad)" opacity="0.95"/>
+    </g>
+    
+    <!-- 身体 -->
+    <ellipse cx="100" cy="105" rx="30" ry="35" fill="url(#bodyGrad)" class="body"/>
+    
+    <!-- 头部 -->
+    <ellipse cx="100" cy="68" rx="26" ry="22" fill="url(#bodyGrad)" class="head"/>
+    
+    <!-- 左钳子 -->
+    <g class="left-claw" id="leftClaw">
+      <path d="M74 78 Q58 68 48 55 Q42 45 50 40 Q58 35 65 45 Q70 55 76 63" 
+            fill="url(#clawGrad)" stroke="#CC4444" stroke-width="1"/>
+      <path d="M48 55 Q38 50 32 55 Q28 60 35 65 Q42 70 50 65" 
+            fill="url(#clawGrad)" stroke="#CC4444" stroke-width="1"/>
+    </g>
+    
+    <!-- 右钳子 -->
+    <g class="right-claw" id="rightClaw">
+      <path d="M126 78 Q142 68 152 55 Q158 45 150 40 Q142 35 135 45 Q130 55 124 63" 
+            fill="url(#clawGrad)" stroke="#CC4444" stroke-width="1"/>
+      <path d="M152 55 Q162 50 168 55 Q172 60 165 65 Q158 70 150 65" 
+            fill="url(#clawGrad)" stroke="#CC4444" stroke-width="1"/>
+    </g>
+    
+    <!-- 左眼 -->
+    <g class="eye-left">
+      <circle cx="88" cy="62" r="9" fill="url(#eyeGrad)" stroke="#CC4444" stroke-width="1"/>
+      <g class="pupil-left" id="pupilLeft">
+        <circle cx="89" cy="60" r="3.5" fill="#2C3E50"/>
+        <circle cx="90" cy="58" r="1.2" fill="#FFF"/>
+      </g>
+    </g>
+    
+    <!-- 右眼 -->
+    <g class="eye-right">
+      <circle cx="112" cy="62" r="9" fill="url(#eyeGrad)" stroke="#CC4444" stroke-width="1"/>
+      <g class="pupil-right" id="pupilRight">
+        <circle cx="111" cy="60" r="3.5" fill="#2C3E50"/>
+        <circle cx="112" cy="58" r="1.2" fill="#FFF"/>
+      </g>
+    </g>
+    
+    <!-- 触角 -->
+    <path class="antenna-left" d="M82 48 Q77 35 72 25 Q70 20 74 17" 
+          fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round"/>
+    <path class="antenna-right" d="M118 48 Q123 35 128 25 Q130 20 126 17" 
+          fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- 小触角 -->
+    <path d="M86 50 Q83 42 81 36" fill="none" stroke="#FF8585" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M114 50 Q117 42 119 36" fill="none" stroke="#FF8585" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- 嘴巴 -->
+    <path d="M96 75 Q100 78 104 75" fill="none" stroke="#CC4444" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- 腿 -->
+    <g class="legs">
+      <path d="M74 102 L64 115" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M72 110 L62 123" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M126 102 L136 115" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M128 110 L138 123" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+    
+    <!-- 高光 -->
+    <ellipse cx="92" cy="88" rx="6" ry="10" fill="#FFF" opacity="0.15"/>
+  </g>
+  
+  <style>
+    .lobster-wrapper {
+      animation: float 3s ease-in-out infinite;
+      transform-origin: center;
+      cursor: pointer;
+    }
+    
+    .lobster-wrapper:hover {
+      animation: excited 0.5s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(1deg); }
+    }
+    
+    @keyframes excited {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.05) rotate(-2deg); }
+      75% { transform: scale(1.05) rotate(2deg); }
+    }
+    
+    .left-claw {
+      animation: clawWave 2s ease-in-out infinite;
+      transform-origin: 74px 78px;
+    }
+    
+    .right-claw {
+      animation: clawWave 2s ease-in-out infinite 0.3s;
+      transform-origin: 126px 78px;
+    }
+    
+    @keyframes clawWave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-8deg); }
+      75% { transform: rotate(8deg); }
+    }
+    
+    .antenna-left, .antenna-right {
+      animation: antennaWiggle 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes antennaWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(5deg); }
+    }
+    
+    .legs {
+      animation: legsMove 0.4s ease-in-out infinite;
+    }
+    
+    @keyframes legsMove {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+    
+    .tail {
+      animation: tailWag 1s ease-in-out infinite;
+      transform-origin: 100px 155px;
+    }
+    
+    @keyframes tailWag {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(3deg); }
+    }
+    
+    .pupil-left, .pupil-right {
+      transition: transform 0.1s ease-out;
+    }
+  </style>
+  
+  <script>
+    // 鼠标跟随效果
+    (function() {
+      const svg = document.getElementById('lobsterLogo');
+      if (!svg) return;
+      
+      const pupilLeft = document.getElementById('pupilLeft');
+      const pupilRight = document.getElementById('pupilRight');
+      const leftClaw = document.getElementById('leftClaw');
+      const rightClaw = document.getElementById('rightClaw');
+      
+      svg.addEventListener('mousemove', function(e) {
+        const rect = svg.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // 计算眼睛跟随
+        const leftEyeX = 88;
+        const leftEyeY = 62;
+        const rightEyeX = 112;
+        const rightEyeY = 62;
+        
+        const maxMove = 3;
+        
+        // 左眼
+        const leftAngle = Math.atan2(y - leftEyeY, x - leftEyeX);
+        const leftDist = Math.min(maxMove, Math.hypot(x - leftEyeX, y - leftEyeY) / 20);
+        const leftX = Math.cos(leftAngle) * leftDist;
+        const leftY = Math.sin(leftAngle) * leftDist;
+        
+        // 右眼
+        const rightAngle = Math.atan2(y - rightEyeY, x - rightEyeX);
+        const rightDist = Math.min(maxMove, Math.hypot(x - rightEyeX, y - rightEyeY) / 20);
+        const rightX = Math.cos(rightAngle) * rightDist;
+        const rightY = Math.sin(rightAngle) * rightDist;
+        
+        if (pupilLeft) pupilLeft.style.transform = `translate(${leftX}px, ${leftY}px)`;
+        if (pupilRight) pupilRight.style.transform = `translate(${rightX}px, ${rightY}px)`;
+      });
+      
+      svg.addEventListener('mouseleave', function() {
+        if (pupilLeft) pupilLeft.style.transform = 'translate(0, 0)';
+        if (pupilRight) pupilRight.style.transform = 'translate(0, 0)';
+      });
+      
+      // 点击互动
+      svg.addEventListener('click', function() {
+        svg.style.animation = 'none';
+        svg.offsetHeight; // 触发重排
+        svg.style.animation = 'excited 0.3s ease-in-out 3';
+        
+        setTimeout(() => {
+          svg.style.animation = '';
+        }, 900);
+      });
+    })();
+  </script>
+</svg>
