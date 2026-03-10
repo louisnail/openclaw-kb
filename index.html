@@ -750,6 +750,79 @@
     </div>
   </footer>
 
+  <!-- 登录弹窗 -->
+  <div id="authModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeAuthModal()"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4">
+      <div class="glass rounded-3xl p-8 shadow-2xl relative">
+        <button onclick="closeAuthModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors">
+          <i class="fas fa-times text-gray-500"></i>
+        </button>
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 mx-auto mb-4">
+            <object data="assets/lobster-logo-animated.svg" type="image/svg+xml" class="w-full h-full"></object>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">欢迎回来</h2>
+          <p class="text-gray-600 dark:text-gray-400 mt-1">登录 OpenClaw 知识库</p>
+        </div>
+        <div class="flex mb-6 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+          <button id="phoneTab" class="flex-1 py-2 rounded-lg text-sm font-medium transition-all bg-white dark:bg-gray-700 shadow-sm" onclick="switchAuthTab('phone')">手机号</button>
+          <button id="emailTab" class="flex-1 py-2 rounded-lg text-sm font-medium transition-all text-gray-600 dark:text-gray-400" onclick="switchAuthTab('email')">邮箱</button>
+        </div>
+        <form id="phoneForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">手机号</label>
+            <input type="tel" placeholder="请输入手机号" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">验证码</label>
+            <div class="flex gap-2">
+              <input type="text" placeholder="请输入验证码" class="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary">
+              <button type="button" class="px-4 py-3 rounded-xl border border-primary text-primary hover:bg-primary hover:text-white transition-colors text-sm whitespace-nowrap">获取验证码</button>
+            </div>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl gradient-hot text-white font-semibold hover:opacity-90 transition-opacity">登录</button>
+        </form>
+        <form id="emailForm" class="space-y-4 hidden">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">邮箱</label>
+            <input type="email" placeholder="请输入邮箱" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">密码</label>
+            <input type="password" placeholder="请输入密码" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary">
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl gradient-hot text-white font-semibold hover:opacity-90 transition-opacity">登录</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 上传弹窗 -->
+  <div id="uploadModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeUploadModal()"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg px-4">
+      <div class="glass rounded-3xl p-8 shadow-2xl relative">
+        <button onclick="closeUploadModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors">
+          <i class="fas fa-times text-gray-500"></i>
+        </button>
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full gradient-hot flex items-center justify-center">
+            <i class="fas fa-cloud-upload-alt text-3xl text-white"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">上传文档</h2>
+          <p class="text-gray-600 dark:text-gray-400 mt-1">支持 PDF、Excel、视频文件</p>
+        </div>
+        <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-8 text-center hover:border-primary transition-colors cursor-pointer">
+          <i class="fas fa-plus text-4xl text-gray-400 mb-4"></i>
+          <p class="text-gray-600 dark:text-gray-400">点击或拖拽文件到此处</p>
+          <p class="text-sm text-gray-500 mt-2">最大支持 50MB</p>
+        </div>
+        <button onclick="closeUploadModal()" class="w-full mt-6 py-3 rounded-xl gradient-hot text-white font-semibold hover:opacity-90 transition-opacity">确认上传</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
   
@@ -799,17 +872,57 @@
 
     // 登录弹窗
     function showLoginModal() {
-      alert('登录功能开发中...');
+      const modal = document.getElementById('authModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        window.location.href = 'user-center.html';
+      }
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('authModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function switchAuthTab(tab) {
+      const phoneTab = document.getElementById('phoneTab');
+      const emailTab = document.getElementById('emailTab');
+      const phoneForm = document.getElementById('phoneForm');
+      const emailForm = document.getElementById('emailForm');
+      
+      if (tab === 'phone') {
+        phoneTab.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+        emailTab.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+        phoneForm.classList.remove('hidden');
+        emailForm.classList.add('hidden');
+      } else {
+        emailTab.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+        phoneTab.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+        emailForm.classList.remove('hidden');
+        phoneForm.classList.add('hidden');
+      }
     }
 
     // 上传弹窗
     function showUploadModal() {
-      alert('上传功能开发中...');
+      const modal = document.getElementById('uploadModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        alert('请先登录后再上传文档');
+        showLoginModal();
+      }
+    }
+
+    function closeUploadModal() {
+      const modal = document.getElementById('uploadModal');
+      if (modal) modal.classList.add('hidden');
     }
 
     // 打开文档
     function openDoc(docId) {
-      alert('打开文档: ' + docId);
+      window.location.href = 'doc-viewer.html?id=' + docId;
     }
 
     // 筛选功能
