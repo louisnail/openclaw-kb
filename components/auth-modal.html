@@ -1,0 +1,248 @@
+<!-- 登录/注册弹窗组件 -->
+<div id="authModal" class="fixed inset-0 z-50 hidden">
+  <!-- 背景遮罩 -->
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeAuthModal()"></div>
+  
+  <!-- 弹窗内容 -->
+  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4">
+    <div class="glass rounded-3xl p-8 shadow-2xl">
+      <!-- 关闭按钮 -->
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors">
+        <i class="fas fa-times text-gray-500"></i>
+      </button>
+      
+      <!-- Logo -->
+      <div class="text-center mb-6">
+        <div class="w-20 h-20 mx-auto mb-4">
+          <svg viewBox="0 0 200 200" class="w-full h-full">
+            <defs>
+              <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#FF6B6B"/>
+                <stop offset="100%" style="stop-color:#EE5A5A"/>
+              </linearGradient>
+              <radialGradient id="eyeGradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" style="stop-color:#FFFFFF"/>
+                <stop offset="100%" style="stop-color:#FFE4E1"/>
+              </radialGradient>
+            </defs>
+            <ellipse cx="100" cy="140" rx="35" ry="25" fill="url(#bodyGradient)"/>
+            <ellipse cx="100" cy="100" rx="40" ry="45" fill="url(#bodyGradient)"/>
+            <ellipse cx="100" cy="65" rx="35" ry="30" fill="url(#bodyGradient)"/>
+            <path d="M 65 75 Q 40 55 25 35 Q 30 30 45 42 Q 60 58 70 78" fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+            <path d="M 25 35 L 20 25 L 35 38 Z" fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+            <path d="M 135 75 Q 160 55 175 35 Q 170 30 155 42 Q 140 58 130 78" fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+            <path d="M 175 35 L 180 25 L 165 38 Z" fill="#FF8585" stroke="#CC4444" stroke-width="2"/>
+            <circle cx="85" cy="60" r="12" fill="url(#eyeGradient)" stroke="#CC4444" stroke-width="2"/>
+            <circle cx="87" cy="58" r="5" fill="#2C3E50"/>
+            <circle cx="88" cy="56" r="2" fill="#FFFFFF"/>
+            <circle cx="115" cy="60" r="12" fill="url(#eyeGradient)" stroke="#CC4444" stroke-width="2"/>
+            <circle cx="113" cy="58" r="5" fill="#2C3E50"/>
+            <circle cx="114" cy="56" r="2" fill="#FFFFFF"/>
+            <path d="M 95 80 Q 100 85 105 80" fill="none" stroke="#CC4444" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">欢迎回来</h2>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">登录 OpenClaw 知识库</p>
+      </div>
+      
+      <!-- 登录方式切换 -->
+      <div class="flex mb-6 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+        <button id="phoneTab" class="flex-1 py-2 rounded-lg text-sm font-medium transition-all bg-white dark:bg-gray-700 shadow-sm" onclick="switchAuthTab('phone')">
+          <i class="fas fa-mobile-alt mr-2"></i>手机号
+        </button>
+        <button id="emailTab" class="flex-1 py-2 rounded-lg text-sm font-medium transition-all text-gray-600 dark:text-gray-400" onclick="switchAuthTab('email')">
+          <i class="fas fa-envelope mr-2"></i>邮箱
+        </button>
+      </div>
+      
+      <!-- 手机号登录表单 -->
+      <form id="phoneForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">手机号</label>
+          <div class="flex">
+            <select class="px-3 py-3 rounded-l-xl border border-r-0 border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 text-sm focus:outline-none focus:border-primary">
+              <option value="+86">+86</option>
+              <option value="+852">+852</option>
+              <option value="+853">+853</option>
+            </select>
+            <input type="tel" placeholder="请输入手机号" 
+                   class="flex-1 px-4 py-3 rounded-r-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary transition-colors">
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">验证码</label>
+          <div class="flex gap-2">
+            <input type="text" placeholder="请输入验证码" 
+                   class="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary transition-colors">
+            <button type="button" id="sendCodeBtn" onclick="sendVerificationCode()" 
+                    class="px-4 py-3 rounded-xl border border-primary text-primary font-medium hover:bg-primary hover:text-white transition-all whitespace-nowrap">
+              获取验证码
+            </button>
+          </div>
+        </div>
+        
+        <button type="submit" class="w-full py-3 rounded-xl gradient-hot text-white font-semibold hover:opacity-90 transition-opacity">
+          登录
+        </button>
+      </form>
+      
+      <!-- 邮箱登录表单 -->
+      <form id="emailForm" class="space-y-4 hidden">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">邮箱</label>
+          <input type="email" placeholder="请输入邮箱" 
+                 class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary transition-colors">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">密码</label>
+          <div class="relative">
+            <input type="password" id="passwordInput" placeholder="请输入密码" 
+                   class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary transition-colors">
+            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <i class="fas fa-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center">
+            <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary">
+            <span class="ml-2 text-gray-600 dark:text-gray-400">记住我</span>
+          </label>
+          <a href="#" class="text-primary hover:underline">忘记密码？</a>
+        </div>
+        
+        <button type="submit" class="w-full py-3 rounded-xl gradient-hot text-white font-semibold hover:opacity-90 transition-opacity">
+          登录
+        </button>
+      </form>
+      
+      <!-- 分割线 -->
+      <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-2 bg-white/80 dark:bg-gray-800/80 text-gray-500">其他方式</span>
+        </div>
+      </div>
+      
+      <!-- 第三方登录 -->
+      <div class="flex justify-center gap-4">
+        <button class="w-12 h-12 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          <i class="fab fa-weixin text-green-500 text-xl"></i>
+        </button>
+        <button class="w-12 h-12 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          <i class="fab fa-github text-gray-800 dark:text-white text-xl"></i>
+        </button>
+        <button class="w-12 h-12 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          <i class="fab fa-google text-red-500 text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- 注册链接 -->
+      <p class="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
+        还没有账号？<a href="#" class="text-primary font-medium hover:underline">立即注册</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 切换登录方式
+  function switchAuthTab(tab) {
+    const phoneTab = document.getElementById('phoneTab');
+    const emailTab = document.getElementById('emailTab');
+    const phoneForm = document.getElementById('phoneForm');
+    const emailForm = document.getElementById('emailForm');
+    
+    if (tab === 'phone') {
+      phoneTab.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+      phoneTab.classList.remove('text-gray-600', 'dark:text-gray-400');
+      emailTab.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+      emailTab.classList.add('text-gray-600', 'dark:text-gray-400');
+      phoneForm.classList.remove('hidden');
+      emailForm.classList.add('hidden');
+    } else {
+      emailTab.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+      emailTab.classList.remove('text-gray-600', 'dark:text-gray-400');
+      phoneTab.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm');
+      phoneTab.classList.add('text-gray-600', 'dark:text-gray-400');
+      emailForm.classList.remove('hidden');
+      phoneForm.classList.add('hidden');
+    }
+  }
+  
+  // 发送验证码
+  function sendVerificationCode() {
+    const btn = document.getElementById('sendCodeBtn');
+    let countdown = 60;
+    
+    btn.disabled = true;
+    btn.textContent = `${countdown}s`;
+    
+    const timer = setInterval(() => {
+      countdown--;
+      btn.textContent = `${countdown}s`;
+      
+      if (countdown <= 0) {
+        clearInterval(timer);
+        btn.disabled = false;
+        btn.textContent = '获取验证码';
+      }
+    }, 1000);
+    
+    // 模拟发送验证码
+    alert('验证码已发送：123456');
+  }
+  
+  // 切换密码可见性
+  function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('passwordInput');
+    const eyeIcon = document.getElementById('eyeIcon');
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      eyeIcon.classList.remove('fa-eye');
+      eyeIcon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      eyeIcon.classList.remove('fa-eye-slash');
+      eyeIcon.classList.add('fa-eye');
+    }
+  }
+  
+  // 打开弹窗
+  function openAuthModal() {
+    document.getElementById('authModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  // 关闭弹窗
+  function closeAuthModal() {
+    document.getElementById('authModal').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  
+  // ESC 关闭
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeAuthModal();
+    }
+  });
+  
+  // 表单提交
+  document.getElementById('phoneForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('登录成功！');
+    closeAuthModal();
+  });
+  
+  document.getElementById('emailForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('登录成功！');
+    closeAuthModal();
+  });
+</script>
