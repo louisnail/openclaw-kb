@@ -522,21 +522,28 @@
           if (response.ok) {
             const html = await response.text();
             // 提取content部分的内容（去掉导航栏和页脚）
-            const contentMatch = html.match(/<div class="content"[^>]*>([\s\S]*?)<\/div>\s*<div class="nav-buttons"/i);
-            const heroMatch = html.match(/<div class="hero"[^>]*>([\s\S]*?)<\/div>/i);
+            // 先尝试提取hero和content
+            const heroMatch = html.match(/<div class="hero"[^>]*>([\s\S]*?)<\/div>\s*<div class="content"/i);
+            const contentMatch = html.match(/<div class="content"[^>]*>([\s\S]*?)<div class="nav-buttons"/i);
             
             let contentHTML = '';
             if (heroMatch) {
-              contentHTML += heroMatch[1];
+              contentHTML += '<div class="hero">' + heroMatch[1] + '</div>';
             }
             if (contentMatch) {
-              contentHTML += contentMatch[1];
+              contentHTML += '<div class="content">' + contentMatch[1] + '</div>';
             }
             
-            // 如果无法提取content，则使用整个body
+            // 如果无法提取content，则尝试提取整个container
             if (!contentHTML) {
-              const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-              contentHTML = bodyMatch ? bodyMatch[1] : html;
+              const containerMatch = html.match(/<div class="container">([\s\S]*?)<\/div>\s*<footer>/i);
+              if (containerMatch) {
+                contentHTML = containerMatch[1];
+              } else {
+                // 最后尝试提取body
+                const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+                contentHTML = bodyMatch ? bodyMatch[1] : html;
+              }
             }
             
             viewer.innerHTML = contentHTML;
