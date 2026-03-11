@@ -54,19 +54,18 @@
   <!-- 双维度筛选 -->
   <div class="bg-gray-50 border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-4 py-4">
-      <div class="flex items-center space-x-2 mb-3 flex-wrap gap-y-2">
+      <div class="flex items-center space-x-2 mb-3 flex-wrap gap-y-2" id="levelFilter">
         <span class="text-sm text-gray-500">方向：</span>
-        <button class="tag-active px-3 py-1 rounded-full text-sm">全部</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">入门</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">进阶</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">实战</button>
+        <button class="tag-active px-3 py-1 rounded-full text-sm" onclick="filterByLevel('all')">全部</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200" onclick="filterByLevel('入门')">入门</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200" onclick="filterByLevel('进阶')">进阶</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200" onclick="filterByLevel('实战')">实战</button>
       </div>
-      <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+      <div class="flex items-center space-x-2 flex-wrap gap-y-2" id="typeFilter">
         <span class="text-sm text-gray-500">分类：</span>
-        <button class="tag-active px-3 py-1 rounded-full text-sm">全部</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">文档</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">视频</button>
-        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200">教程</button>
+        <button class="tag-active px-3 py-1 rounded-full text-sm" onclick="filterByType('all')">全部</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200" onclick="filterByType('文档')">文档</button>
+        <button class="px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200" onclick="filterByType('视频')">视频</button>
       </div>
     </div>
   </div>
@@ -75,7 +74,7 @@
   <main class="max-w-6xl mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- 课程卡片 1 -->
-      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('install')">
+      <div class="course-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openDoc('install')" data-level="入门" data-type="文档">
         <div class="aspect-video bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
           <i class="fas fa-download text-5xl text-white/80"></i>
         </div>
@@ -413,6 +412,87 @@
     function openDoc(docId) {
       window.location.href = 'doc-viewer.html?id=' + docId;
     }
+
+    // 筛选功能
+    let currentLevel = 'all';
+    let currentType = 'all';
+
+    function filterByLevel(level) {
+      currentLevel = level;
+      applyFilter();
+      updateFilterButtons('level', level);
+    }
+
+    function filterByType(type) {
+      currentType = type;
+      applyFilter();
+      updateFilterButtons('type', type);
+    }
+
+    function applyFilter() {
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(card => {
+        const cardLevel = card.getAttribute('data-level');
+        const cardType = card.getAttribute('data-type');
+        
+        const levelMatch = currentLevel === 'all' || cardLevel === currentLevel;
+        const typeMatch = currentType === 'all' || cardType === currentType;
+        
+        if (levelMatch && typeMatch) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function updateFilterButtons(filterType, selectedValue) {
+      if (filterType === 'level') {
+        const buttons = document.querySelectorAll('#levelFilter button');
+        buttons.forEach(btn => {
+          const btnText = btn.textContent.trim();
+          if ((selectedValue === 'all' && btnText === '全部') || 
+              (selectedValue !== 'all' && btnText === selectedValue)) {
+            btn.classList.add('tag-active');
+            btn.classList.remove('text-gray-600');
+          } else {
+            btn.classList.remove('tag-active');
+            btn.classList.add('text-gray-600');
+          }
+        });
+      } else if (filterType === 'type') {
+        const buttons = document.querySelectorAll('#typeFilter button');
+        buttons.forEach(btn => {
+          const btnText = btn.textContent.trim();
+          if ((selectedValue === 'all' && btnText === '全部') || 
+              (selectedValue !== 'all' && btnText === selectedValue)) {
+            btn.classList.add('tag-active');
+            btn.classList.remove('text-gray-600');
+          } else {
+            btn.classList.remove('tag-active');
+            btn.classList.add('text-gray-600');
+          }
+        });
+      }
+    }
+
+    // 页面加载时给卡片添加data属性
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(card => {
+        const levelSpan = card.querySelector('.bg-blue-100, .bg-green-100, .bg-purple-100, .bg-pink-100, .bg-orange-100, .bg-cyan-100, .bg-yellow-100, .bg-indigo-100, .bg-red-100, .bg-gray-100');
+        const typeSpan = card.querySelector('.text-gray-400');
+        
+        if (levelSpan) {
+          const levelText = levelSpan.textContent.trim();
+          card.setAttribute('data-level', levelText);
+        }
+        if (typeSpan) {
+          const typeText = typeSpan.textContent.trim();
+          card.setAttribute('data-type', typeText);
+        }
+      });
+    });
   </script>
 </body>
 </html>
