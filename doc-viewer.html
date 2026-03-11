@@ -521,10 +521,25 @@
           const response = await fetch(currentDoc.file);
           if (response.ok) {
             const html = await response.text();
-            // 提取body内容
-            const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-            const bodyContent = bodyMatch ? bodyMatch[1] : html;
-            viewer.innerHTML = bodyContent;
+            // 提取content部分的内容（去掉导航栏和页脚）
+            const contentMatch = html.match(/<div class="content"[^>]*>([\s\S]*?)<\/div>\s*<div class="nav-buttons"/i);
+            const heroMatch = html.match(/<div class="hero"[^>]*>([\s\S]*?)<\/div>/i);
+            
+            let contentHTML = '';
+            if (heroMatch) {
+              contentHTML += heroMatch[1];
+            }
+            if (contentMatch) {
+              contentHTML += contentMatch[1];
+            }
+            
+            // 如果无法提取content，则使用整个body
+            if (!contentHTML) {
+              const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+              contentHTML = bodyMatch ? bodyMatch[1] : html;
+            }
+            
+            viewer.innerHTML = contentHTML;
             
             // 生成目录
             generateTOC();
