@@ -1,6 +1,5 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- 渐变 -->
     <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" style="stop-color:#FF6B6B"/>
       <stop offset="100%" style="stop-color:#EE5A5A"/>
@@ -9,14 +8,11 @@
       <stop offset="0%" style="stop-color:#FF8585"/>
       <stop offset="100%" style="stop-color:#FF6B6B"/>
     </linearGradient>
-    
-    <!-- 阴影 -->
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
     </filter>
   </defs>
   
-  <!-- 动画定义 -->
   <style>
     .float { animation: float 3s ease-in-out infinite; }
     .wiggle { animation: wiggle 2s ease-in-out infinite; }
@@ -48,7 +44,7 @@
   </style>
   
   <g class="float">
-    <!-- 龙虾尾巴（猫的身体） -->
+    <!-- 龙虾尾巴 -->
     <g class="tail-wave" transform-origin="100 140">
       <ellipse cx="100" cy="150" rx="35" ry="25" fill="url(#bodyGrad)" filter="url(#shadow)"/>
       <ellipse cx="100" cy="165" rx="25" ry="18" fill="url(#shellGrad)"/>
@@ -63,7 +59,7 @@
       <path d="M125 75 L130 55 L120 65 Z" fill="#FFB4B4"/>
     </g>
     
-    <!-- 龙虾钳子（举在猫脸两侧） -->
+    <!-- 龙虾钳子 -->
     <g class="claw-wave" transform-origin="60 100">
       <ellipse cx="55" cy="110" rx="20" ry="15" fill="#FF6B6B" transform="rotate(-20 55 110)"/>
       <ellipse cx="45" cy="95" rx="12" ry="18" fill="#FF8585" transform="rotate(-30 45 95)"/>
@@ -77,8 +73,6 @@
     
     <!-- 猫头 -->
     <ellipse cx="100" cy="95" rx="40" ry="35" fill="#FFF5F5" filter="url(#shadow)"/>
-    
-    <!-- 猫脸花纹 -->
     <ellipse cx="100" cy="105" rx="25" ry="20" fill="#FFE5E5"/>
     
     <!-- 眼睛 -->
@@ -93,10 +87,8 @@
       <circle cx="116" cy="92" r="2" fill="white"/>
     </g>
     
-    <!-- 鼻子 -->
+    <!-- 鼻子和嘴巴 -->
     <path d="M95 105 L105 105 L100 112 Z" fill="#FF6B6B"/>
-    
-    <!-- 嘴巴 -->
     <path d="M100 112 Q92 118 85 115" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
     <path d="M100 112 Q108 118 115 115" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
     
