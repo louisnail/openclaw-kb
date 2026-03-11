@@ -12,13 +12,6 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- PDF.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  
-  <!-- Video.js -->
-  <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
-  <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
@@ -69,28 +62,88 @@
       50% { transform: scale(1.3); }
       100% { transform: scale(1); }
     }
-    .pdf-container {
+    .content-viewer {
       width: 100%;
-      height: 800px;
-      overflow: auto;
-      background: #f5f5f5;
+      min-height: 600px;
+      background: white;
+      border-radius: 0 0 16px 16px;
     }
-    .dark .pdf-container {
+    .dark .content-viewer {
       background: #1e293b;
     }
-    .excel-container {
+    .content-viewer iframe {
       width: 100%;
-      height: 800px;
-      overflow: auto;
-    }
-    .video-container {
-      width: 100%;
-      aspect-ratio: 16/9;
+      min-height: 600px;
+      border: none;
     }
     .toc-item.active {
       background: rgba(255, 107, 107, 0.1);
       color: #FF6B6B;
       border-left: 3px solid #FF6B6B;
+    }
+    /* 文章内容样式 */
+    .article-content h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 1.5rem 0 1rem;
+      color: #1e293b;
+    }
+    .dark .article-content h2 {
+      color: #e2e8f0;
+    }
+    .article-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.25rem 0 0.75rem;
+      color: #334155;
+    }
+    .dark .article-content h3 {
+      color: #94a3b8;
+    }
+    .article-content p {
+      margin: 0.75rem 0;
+      line-height: 1.8;
+    }
+    .article-content ul, .article-content ol {
+      margin: 0.75rem 0;
+      padding-left: 1.5rem;
+    }
+    .article-content li {
+      margin: 0.5rem 0;
+    }
+    .article-content code {
+      background: #f1f5f9;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .dark .article-content code {
+      background: #334155;
+    }
+    .article-content pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .article-content pre code {
+      background: transparent;
+      padding: 0;
+    }
+    /* 视频容器 */
+    .video-container {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
@@ -124,7 +177,7 @@
             <i class="fas fa-moon dark:hidden text-gray-600"></i>
             <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
           </button>
-          <button onclick="showLoginModal()" class="px-4 py-2 rounded-full gradient-hot text-white font-medium hover:opacity-90 transition-opacity">
+          <button onclick="showLoginModal()" class="px-4 py-2 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-medium hover:opacity-90 transition-opacity">
             登录
           </button>
         </div>
@@ -140,26 +193,22 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="flex-1">
             <div class="flex items-center gap-2 mb-2">
-              <span class="px-2 py-1 rounded-full bg-primary/20 text-primary text-xs">📚 教程</span>
-              <span class="text-xs text-gray-500">⭐ 入门</span>
+              <span id="docTag" class="px-2 py-1 rounded-full bg-primary/20 text-primary text-xs">📚 教程</span>
+              <span id="docLevel" class="text-xs text-gray-500">⭐ 入门</span>
             </div>
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">OpenClaw 安装指南</h1>
-            <p class="text-gray-600 dark:text-gray-400">详细的安装步骤，支持 Mac、Windows、Linux 三大平台</p>
+            <h1 id="docTitle" class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">加载中...</h1>
+            <p id="docDesc" class="text-gray-600 dark:text-gray-400">...</p>
           </div>
           
           <!-- 操作按钮 -->
           <div class="flex items-center gap-3">
             <button onclick="toggleLike(this)" class="like-btn flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 hover:border-primary hover:text-primary transition-all">
               <i class="fas fa-heart"></i>
-              <span id="likeCount">567</span>
+              <span id="likeCount">0</span>
             </button>
             <button onclick="shareDoc()" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 hover:border-secondary hover:text-secondary transition-all">
               <i class="fas fa-share-alt"></i>
               分享
-            </button>
-            <button onclick="downloadDoc()" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 hover:border-accent hover:text-yellow-600 transition-all">
-              <i class="fas fa-download"></i>
-              下载
             </button>
           </div>
         </div>
@@ -168,23 +217,19 @@
         <div class="flex flex-wrap items-center gap-6 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
           <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <i class="fas fa-eye"></i>
-            <span>2.3k 阅读</span>
+            <span id="viewCount">0 阅读</span>
           </div>
           <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <i class="fas fa-heart text-primary"></i>
-            <span>567 点赞</span>
+            <span id="likeCountDisplay">0 点赞</span>
           </div>
           <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <i class="fas fa-comment"></i>
-            <span>89 评论</span>
-          </div>
-          <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-            <i class="fas fa-download"></i>
-            <span>456 下载</span>
+            <span id="commentCount">0 评论</span>
           </div>
           <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <i class="fas fa-calendar"></i>
-            <span>2026-03-10 发布</span>
+            <span id="publishDate">2026-03-11 发布</span>
           </div>
         </div>
       </div>
@@ -198,109 +243,21 @@
               <i class="fas fa-list mr-2 text-primary"></i>目录
             </h3>
             <nav class="space-y-1" id="toc">
-              <a href="#section1" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors active">
-                1. 简介
-              </a>
-              <a href="#section2" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                2. Mac 安装
-              </a>
-              <a href="#section3" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                3. Windows 安装
-              </a>
-              <a href="#section4" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                4. Linux 安装
-              </a>
-              <a href="#section5" class="toc-item block px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                5. 配置说明
-              </a>
+              <!-- 动态生成目录 -->
             </nav>
           </div>
         </div>
         
-        <!-- 中间阅读器 -->
+        <!-- 中间内容区 -->
         <div class="lg:col-span-2">
           <div class="glass rounded-2xl overflow-hidden">
-            <!-- PDF 阅读器 -->
-            <div id="pdfViewer" class="pdf-container">
-              <div class="flex items-center justify-center h-full text-gray-500">
+            <!-- HTML 内容阅读器 -->
+            <div id="contentViewer" class="content-viewer p-6 article-content">
+              <div class="flex items-center justify-center h-64 text-gray-500">
                 <div class="text-center">
-                  <i class="fas fa-file-pdf text-6xl mb-4"></i>
-                  <p>PDF 阅读器加载中...</p>
-                  <p class="text-sm mt-2">（演示模式：实际使用时需要配置 PDF.js）</p>
+                  <i class="fas fa-spinner fa-spin text-4xl mb-4"></i>
+                  <p>内容加载中...</p>
                 </div>
-              </div>
-            </div>
-            
-            <!-- Excel 阅读器（隐藏） -->
-            <div id="excelViewer" class="excel-container hidden">
-              <div class="p-8">
-                <table class="w-full border-collapse">
-                  <thead>
-                    <tr class="bg-gray-100 dark:bg-gray-800">
-                      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">步骤</th>
-                      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">命令</th>
-                      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">说明</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">1</td>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-sm">npm install</td>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">安装依赖</td>
-                    </tr>
-                    <tr class="bg-gray-50 dark:bg-gray-900/50">
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">2</td>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-sm">npm run dev</td>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">启动开发服务器</td>
-                    </tr>
-                    <tr>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">3</td>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-sm">npm run build</td>
-                      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">构建生产版本</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            
-            <!-- 视频播放器（隐藏） -->
-            <div id="videoViewer" class="video-container hidden">
-              <video
-                id="my-video"
-                class="video-js vjs-big-play-centered"
-                controls
-                preload="auto"
-                poster="assets/video-poster.jpg"
-                data-setup="{}"
-              >
-                <source src="assets/demo-video.mp4" type="video/mp4" />
-                <p class="vjs-no-js">
-                  要查看此视频，请启用 JavaScript，并考虑升级到支持 HTML5 视频的浏览器
-                </p>
-              </video>
-            </div>
-            
-            <!-- 阅读器控制栏 -->
-            <div class="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
-              <div class="flex items-center gap-2">
-                <button onclick="prevPage()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <i class="fas fa-chevron-left"></i>
-                </button>
-                <span class="text-sm text-gray-600 dark:text-gray-400">
-                  第 <span id="currentPage">1</span> / <span id="totalPages">10</span> 页
-                </span>
-                <button onclick="nextPage()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <i class="fas fa-chevron-right"></i>
-                </button>
-              </div>
-              <div class="flex items-center gap-2">
-                <button onclick="zoomOut()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <span class="text-sm text-gray-600 dark:text-gray-400"><span id="zoomLevel">100</span>%</span>
-                <button onclick="zoomIn()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <i class="fas fa-plus"></i>
-                </button>
               </div>
             </div>
           </div>
@@ -312,7 +269,7 @@
               <span id="readProgress">0%</span>
             </div>
             <div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-              <div id="progressBar" class="h-full gradient-hot rounded-full transition-all duration-300" style="width: 0%"></div>
+              <div id="progressBar" class="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-300" style="width: 0%"></div>
             </div>
           </div>
         </div>
@@ -336,54 +293,18 @@
             </button>
           </div>
           
-          <!-- 最近阅读 -->
-          <div class="glass rounded-2xl p-4">
-            <h3 class="font-bold text-gray-800 dark:text-white mb-4">最近阅读</h3>
-            <div class="flex -space-x-2 mb-3">
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-red-400 to-pink-400 border-2 border-white dark:border-gray-800"></div>
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 border-2 border-white dark:border-gray-800"></div>
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-teal-400 border-2 border-white dark:border-gray-800"></div>
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 border-2 border-white dark:border-gray-800"></div>
-              <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-white dark:border-gray-800 flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
-                +45
-              </div>
-            </div>
-            <p class="text-sm text-gray-600 dark:text-gray-400">等 45 人阅读过</p>
-          </div>
-          
           <!-- 相关文档 -->
           <div class="glass rounded-2xl p-4">
-            <h3 class="font-bold text-gray-800 dark:text-white mb-4">相关文档</h3>
-            <div class="space-y-3">
-              <a href="#" class="block group">
-                <div class="flex items-start gap-3">
-                  <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-blue-400 flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-rocket text-white"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary transition-colors">快速开始</h4>
-                    <p class="text-xs text-gray-500">30分钟上手</p>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="block group">
-                <div class="flex items-start gap-3">
-                  <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-400 flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-code text-white"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary transition-colors">Skills 开发</h4>
-                    <p class="text-xs text-gray-500">编写第一个 Skill</p>
-                  </div>
-                </div>
-              </a>
+            <h3 class="font-bold text-gray-800 dark:text-white mb-4">相关推荐</h3>
+            <div class="space-y-3" id="relatedDocs">
+              <!-- 动态生成 -->
             </div>
           </div>
           
           <!-- 热门标签 -->
           <div class="glass rounded-2xl p-4">
             <h3 class="font-bold text-gray-800 dark:text-white mb-4">热门标签</h3>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2" id="hotTags">
               <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">安装</span>
               <span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-sm">入门</span>
               <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-500 text-sm">教程</span>
@@ -396,7 +317,7 @@
       <!-- 评论区 -->
       <div class="mt-8 glass rounded-2xl p-6">
         <h3 class="font-bold text-gray-800 dark:text-white mb-6 flex items-center">
-          <i class="fas fa-comments mr-2 text-primary"></i>评论 (89)
+          <i class="fas fa-comments mr-2 text-primary"></i>评论 (<span id="commentCountDisplay">0</span>)
         </h3>
         
         <!-- 评论输入框 -->
@@ -405,7 +326,7 @@
           <div class="flex-1">
             <textarea rows="3" placeholder="写下你的评论..." class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-primary resize-none"></textarea>
             <div class="flex justify-end mt-2">
-              <button class="px-6 py-2 rounded-xl gradient-hot text-white font-medium hover:opacity-90 transition-opacity">
+              <button onclick="submitComment()" class="px-6 py-2 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-medium hover:opacity-90 transition-opacity">
                 发表评论
               </button>
             </div>
@@ -413,170 +334,392 @@
         </div>
         
         <!-- 评论列表 -->
-        <div class="space-y-4">
-          <div class="flex gap-4">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex-shrink-0"></div>
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="font-medium text-gray-800 dark:text-white">张三</span>
-                <span class="text-xs text-gray-500">2小时前</span>
-              </div>
-              <p class="text-gray-600 dark:text-gray-400">非常详细的教程，帮助很大！</p>
-              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                <button class="hover:text-primary transition-colors">
-                  <i class="fas fa-thumbs-up mr-1"></i>23
-                </button>
-                <button class="hover:text-primary transition-colors">回复</button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="flex gap-4">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 flex-shrink-0"></div>
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="font-medium text-gray-800 dark:text-white">李四</span>
-                <span class="text-xs text-gray-500">5小时前</span>
-              </div>
-              <p class="text-gray-600 dark:text-gray-400">Mac 安装部分有点疑问，M1 芯片需要额外配置吗？</p>
-              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                <button class="hover:text-primary transition-colors">
-                  <i class="fas fa-thumbs-up mr-1"></i>15
-                </button>
-                <button class="hover:text-primary transition-colors">回复</button>
-              </div>
-            </div>
-          </div>
+        <div class="space-y-4" id="commentList">
+          <!-- 动态加载 -->
         </div>
       </div>
     </div>
   </main>
   
   <script>
-    // 暗黑模式切换
+    // ===== 文档数据库 =====
+    // 在这里添加新文章/视频
+    const docDatabase = {
+      // 文章
+      'install': {
+        type: 'article',
+        title: '安装指南',
+        desc: '详细的安装步骤，支持 Mac、Windows、Linux 三大平台',
+        file: 'docs/01-安装指南.html',
+        tag: '📚 教程',
+        level: '⭐ 入门',
+        views: 2300,
+        likes: 567,
+        comments: 89,
+        date: '2026-03-10'
+      },
+      'quickstart': {
+        type: 'article',
+        title: '快速开始',
+        desc: '30分钟快速上手OpenClaw',
+        file: 'docs/02-快速开始.html',
+        tag: '📚 教程',
+        level: '⭐ 入门',
+        views: 1850,
+        likes: 423,
+        comments: 56,
+        date: '2026-03-10'
+      },
+      'config': {
+        type: 'article',
+        title: '配置详解',
+        desc: '完全掌握配置文件和各项参数',
+        file: 'docs/03-配置详解.html',
+        tag: '📚 教程',
+        level: '⭐⭐ 进阶',
+        views: 1200,
+        likes: 289,
+        comments: 34,
+        date: '2026-03-10'
+      },
+      'prompt': {
+        type: 'article',
+        title: '提示词工程',
+        desc: '设计更好的提示词，获得更好的AI回复',
+        file: 'docs/04-提示词工程.html',
+        tag: '📚 教程',
+        level: '⭐⭐ 进阶',
+        views: 980,
+        likes: 234,
+        comments: 28,
+        date: '2026-03-10'
+      },
+      'skills': {
+        type: 'article',
+        title: 'Skills 开发',
+        desc: '从0到1创建自定义Skills',
+        file: 'docs/05-Skills 开发.html',
+        tag: '📚 教程',
+        level: '⭐⭐⭐ 高级',
+        views: 750,
+        likes: 189,
+        comments: 21,
+        date: '2026-03-10'
+      },
+      'cron': {
+        type: 'article',
+        title: '定时任务',
+        desc: '配置Cron Jobs自动执行任务',
+        file: 'docs/06-定时任务.html',
+        tag: '📚 教程',
+        level: '⭐⭐ 进阶',
+        views: 620,
+        likes: 156,
+        comments: 18,
+        date: '2026-03-10'
+      },
+      'token': {
+        type: 'article',
+        title: 'Token 优化',
+        desc: '降低成本提升效率的实用技巧',
+        file: 'docs/07-Token 优化.html',
+        tag: '📚 教程',
+        level: '⭐⭐ 进阶',
+        views: 890,
+        likes: 267,
+        comments: 42,
+        date: '2026-03-10'
+      },
+      'bestpractice': {
+        type: 'article',
+        title: '最佳实践',
+        desc: 'OpenClaw使用经验和技巧总结',
+        file: 'docs/08-最佳实践.html',
+        tag: '📚 教程',
+        level: '⭐⭐⭐ 高级',
+        views: 1100,
+        likes: 312,
+        comments: 48,
+        date: '2026-03-10'
+      },
+      // 视频
+      'video-intro': {
+        type: 'video',
+        title: 'OpenClaw 入门介绍',
+        desc: '10分钟了解OpenClaw核心功能',
+        embedUrl: 'https://player.bilibili.com/player.html?bvid=BV1xxxxxx',
+        tag: '🎬 视频',
+        level: '⭐ 入门',
+        views: 3500,
+        likes: 890,
+        comments: 120,
+        date: '2026-03-10'
+      },
+      'video-11skills': {
+        type: 'video',
+        title: '11个Skill让你的龙虾真正武装起来',
+        desc: '装了OpenClaw只会聊天？这11个必备Skill让你的AI助手真正强大起来',
+        embedUrl: 'https://player.bilibili.com/player.html?bvid=BV1AwQ1YvE2V&page=1&high_quality=1&danmaku=0',
+        tag: '🎬 视频',
+        level: '⭐ 入门',
+        views: 7748,
+        likes: 156,
+        comments: 25,
+        date: '2026-03-10'
+      }
+    };
+    
+    // 当前文档ID
+    let currentDocId = null;
+    let currentDoc = null;
+    
+    // ===== 初始化 =====
+    document.addEventListener('DOMContentLoaded', function() {
+      // 获取URL参数
+      const urlParams = new URLSearchParams(window.location.search);
+      currentDocId = urlParams.get('id') || 'install';
+      
+      // 加载文档
+      loadDocument(currentDocId);
+      
+      // 加载评论
+      loadComments();
+      
+      // 初始化暗黑模式
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.classList.add('dark');
+      }
+    });
+    
+    // ===== 加载文档 =====
+    async function loadDocument(docId) {
+      currentDoc = docDatabase[docId];
+      
+      if (!currentDoc) {
+        showError('文档不存在');
+        return;
+      }
+      
+      // 更新页面信息
+      document.getElementById('docTitle').textContent = currentDoc.title;
+      document.getElementById('docDesc').textContent = currentDoc.desc;
+      document.getElementById('docTag').textContent = currentDoc.tag;
+      document.getElementById('docLevel').textContent = currentDoc.level;
+      document.getElementById('viewCount').textContent = currentDoc.views + ' 阅读';
+      document.getElementById('likeCount').textContent = currentDoc.likes;
+      document.getElementById('likeCountDisplay').textContent = currentDoc.likes + ' 点赞';
+      document.getElementById('commentCount').textContent = currentDoc.comments + ' 评论';
+      document.getElementById('commentCountDisplay').textContent = currentDoc.comments;
+      document.getElementById('publishDate').textContent = currentDoc.date + ' 发布';
+      
+      // 加载内容
+      const viewer = document.getElementById('contentViewer');
+      
+      if (currentDoc.type === 'article') {
+        // 加载HTML文章
+        try {
+          const response = await fetch(currentDoc.file);
+          if (response.ok) {
+            const html = await response.text();
+            // 提取body内容
+            const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+            const bodyContent = bodyMatch ? bodyMatch[1] : html;
+            viewer.innerHTML = bodyContent;
+            
+            // 生成目录
+            generateTOC();
+          } else {
+            throw new Error('加载失败');
+          }
+        } catch (error) {
+          viewer.innerHTML = '<div class="p-8 text-center text-gray-500"><i class="fas fa-exclamation-circle text-4xl mb-4"></i><p>内容加载失败，请稍后重试</p></div>';
+        }
+      } else if (currentDoc.type === 'video') {
+        // 加载视频
+        viewer.innerHTML = `
+          <div class="video-container">
+            <iframe src="${currentDoc.embedUrl}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+          </div>
+          <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <p class="text-sm text-gray-600 dark:text-gray-400">视频简介：${currentDoc.desc}</p>
+          </div>
+        `;
+      }
+      
+      // 加载相关推荐
+      loadRelatedDocs(docId);
+      
+      // 恢复点赞状态
+      const liked = localStorage.getItem('doc_' + docId + '_liked') === 'true';
+      if (liked) {
+        document.querySelector('.like-btn').classList.add('active');
+      }
+    }
+    
+    // ===== 生成目录 =====
+    function generateTOC() {
+      const toc = document.getElementById('toc');
+      const headings = document.querySelectorAll('#contentViewer h2, #contentViewer h3');
+      
+      if (headings.length === 0) {
+        toc.innerHTML = '<p class="text-sm text-gray-500">暂无目录</p>';
+        return;
+      }
+      
+      let tocHTML = '';
+      headings.forEach((heading, index) => {
+        const id = 'section' + (index + 1);
+        heading.id = id;
+        const isH2 = heading.tagName === 'H2';
+        tocHTML += `
+          <a href="#${id}" class="toc-item block px-3 py-2 rounded-lg text-sm ${isH2 ? 'font-medium' : 'pl-6'} text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="highlightTOC(this)">
+            ${heading.textContent}
+          </a>
+        `;
+      });
+      
+      toc.innerHTML = tocHTML;
+    }
+    
+    // ===== 高亮目录 =====
+    function highlightTOC(element) {
+      document.querySelectorAll('.toc-item').forEach(item => item.classList.remove('active'));
+      element.classList.add('active');
+    }
+    
+    // ===== 加载相关推荐 =====
+    function loadRelatedDocs(currentId) {
+      const container = document.getElementById('relatedDocs');
+      const related = Object.entries(docDatabase)
+        .filter(([id, doc]) => id !== currentId && doc.type === currentDoc.type)
+        .slice(0, 3);
+      
+      let html = '';
+      related.forEach(([id, doc]) => {
+        const icon = doc.type === 'video' ? 'fa-play-circle' : 'fa-file-alt';
+        const color = doc.type === 'video' ? 'from-red-400 to-pink-400' : 'from-secondary to-blue-400';
+        html += `
+          <a href="doc-viewer.html?id=${id}" class="block group">
+            <div class="flex items-start gap-3">
+              <div class="w-12 h-12 rounded-lg bg-gradient-to-br ${color} flex items-center justify-center flex-shrink-0">
+                <i class="fas ${icon} text-white"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary transition-colors">${doc.title}</h4>
+                <p class="text-xs text-gray-500">${doc.desc.substring(0, 20)}...</p>
+              </div>
+            </div>
+          </a>
+        `;
+      });
+      
+      container.innerHTML = html || '<p class="text-sm text-gray-500">暂无相关推荐</p>';
+    }
+    
+    // ===== 加载评论 =====
+    function loadComments() {
+      const comments = [
+        { name: '张三', time: '2小时前', content: '非常详细的教程，帮助很大！', likes: 23 },
+        { name: '李四', time: '5小时前', content: '写得很清楚，跟着做就成功了', likes: 15 }
+      ];
+      
+      const container = document.getElementById('commentList');
+      let html = '';
+      comments.forEach(comment => {
+        html += `
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex-shrink-0"></div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-medium text-gray-800 dark:text-white">${comment.name}</span>
+                <span class="text-xs text-gray-500">${comment.time}</span>
+              </div>
+              <p class="text-gray-600 dark:text-gray-400">${comment.content}</p>
+              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                <button class="hover:text-primary transition-colors">
+                  <i class="fas fa-thumbs-up mr-1"></i>${comment.likes}
+                </button>
+                <button class="hover:text-primary transition-colors">回复</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+    
+    // ===== 暗黑模式切换 =====
     function toggleDarkMode() {
       document.documentElement.classList.toggle('dark');
       localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
     }
     
-    if (localStorage.getItem('darkMode') === 'true') {
-      document.documentElement.classList.add('dark');
-    }
-    
-    // 点赞功能
-    let liked = false;
-    let likeCount = 567;
-    
+    // ===== 点赞功能 =====
     function toggleLike(btn) {
-      liked = !liked;
-      btn.classList.toggle('active');
+      if (!currentDoc) return;
+      
+      const liked = btn.classList.contains('active');
+      const likeCountEl = document.getElementById('likeCount');
+      const likeCountDisplayEl = document.getElementById('likeCountDisplay');
+      let count = parseInt(likeCountEl.textContent);
       
       if (liked) {
-        likeCount++;
-        btn.innerHTML = `<i class="fas fa-heart"></i><span>${likeCount}</span>`;
+        btn.classList.remove('active');
+        btn.innerHTML = `<i class="far fa-heart"></i><span>${count - 1}</span>`;
+        likeCountDisplayEl.textContent = (count - 1) + ' 点赞';
+        localStorage.setItem('doc_' + currentDocId + '_liked', 'false');
       } else {
-        likeCount--;
-        btn.innerHTML = `<i class="far fa-heart"></i><span>${likeCount}</span>`;
+        btn.classList.add('active');
+        btn.innerHTML = `<i class="fas fa-heart"></i><span>${count + 1}</span>`;
+        likeCountDisplayEl.textContent = (count + 1) + ' 点赞';
+        localStorage.setItem('doc_' + currentDocId + '_liked', 'true');
       }
-      
-      // 保存到本地存储
-      localStorage.setItem('doc_liked', liked);
-      localStorage.setItem('doc_likeCount', likeCount);
     }
     
-    // 检查之前的点赞状态
-    if (localStorage.getItem('doc_liked') === 'true') {
-      liked = true;
-      document.querySelector('.like-btn').classList.add('active');
-    }
-    
-    // 分享功能
+    // ===== 分享功能 =====
     function shareDoc() {
       if (navigator.share) {
         navigator.share({
-          title: 'OpenClaw 安装指南',
-          text: '详细的安装步骤，支持多平台',
+          title: currentDoc ? currentDoc.title : 'OpenClaw 文档',
+          text: currentDoc ? currentDoc.desc : '',
           url: window.location.href
         });
       } else {
-        // 复制链接
         navigator.clipboard.writeText(window.location.href);
         alert('链接已复制到剪贴板');
       }
     }
     
-    // 下载功能
-    function downloadDoc() {
-      alert('开始下载...');
+    // ===== 提交评论 =====
+    function submitComment() {
+      alert('评论功能开发中...');
     }
     
-    // 阅读器控制
-    let currentPage = 1;
-    let totalPages = 10;
-    let zoomLevel = 100;
-    let readProgress = 0;
-    
-    function prevPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        updatePageDisplay();
-        updateProgress();
-      }
-    }
-    
-    function nextPage() {
-      if (currentPage < totalPages) {
-        currentPage++;
-        updatePageDisplay();
-        updateProgress();
-      }
-    }
-    
-    function updatePageDisplay() {
-      document.getElementById('currentPage').textContent = currentPage;
-    }
-    
-    function zoomIn() {
-      if (zoomLevel < 200) {
-        zoomLevel += 10;
-        updateZoomDisplay();
-      }
-    }
-    
-    function zoomOut() {
-      if (zoomLevel > 50) {
-        zoomLevel -= 10;
-        updateZoomDisplay();
-      }
-    }
-    
-    function updateZoomDisplay() {
-      document.getElementById('zoomLevel').textContent = zoomLevel;
-    }
-    
-    function updateProgress() {
-      readProgress = Math.round((currentPage / totalPages) * 100);
-      document.getElementById('readProgress').textContent = readProgress + '%';
-      document.getElementById('progressBar').style.width = readProgress + '%';
-    }
-    
-    // 目录高亮
-    document.querySelectorAll('.toc-item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        document.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-      });
-    });
-    
-    // 模拟阅读进度
-    setTimeout(() => {
-      updateProgress();
-    }, 1000);
-    
-    // 登录弹窗
+    // ===== 登录弹窗 =====
     function showLoginModal() {
       alert('登录功能开发中...');
     }
+    
+    // ===== 显示错误 =====
+    function showError(message) {
+      document.getElementById('contentViewer').innerHTML = `
+        <div class="p-8 text-center">
+          <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+          <p class="text-gray-600 dark:text-gray-400">${message}</p>
+          <a href="index.html" class="mt-4 inline-block px-4 py-2 bg-primary text-white rounded-lg">返回首页</a>
+        </div>
+      `;
+    }
+    
+    // ===== 阅读进度 =====
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.round((scrollTop / docHeight) * 100);
+      document.getElementById('readProgress').textContent = progress + '%';
+      document.getElementById('progressBar').style.width = progress + '%';
+    });
   </script>
 </body>
 </html>
