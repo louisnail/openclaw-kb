@@ -1,0 +1,127 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 渐变 -->
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="100%" style="stop-color:#EE5A5A"/>
+    </linearGradient>
+    <linearGradient id="shellGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8585"/>
+      <stop offset="100%" style="stop-color:#FF6B6B"/>
+    </linearGradient>
+    
+    <!-- 阴影 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- 动画定义 -->
+  <style>
+    .float { animation: float 3s ease-in-out infinite; }
+    .wiggle { animation: wiggle 2s ease-in-out infinite; }
+    .blink { animation: blink 4s ease-in-out infinite; }
+    .tail-wave { animation: tailWave 2s ease-in-out infinite; }
+    .claw-wave { animation: clawWave 1.5s ease-in-out infinite; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+    @keyframes tailWave {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(15deg); }
+    }
+    @keyframes clawWave {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-10deg); }
+    }
+  </style>
+  
+  <g class="float">
+    <!-- 龙虾尾巴（猫的身体） -->
+    <g class="tail-wave" transform-origin="100 140">
+      <ellipse cx="100" cy="150" rx="35" ry="25" fill="url(#bodyGrad)" filter="url(#shadow)"/>
+      <ellipse cx="100" cy="165" rx="25" ry="18" fill="url(#shellGrad)"/>
+      <ellipse cx="100" cy="178" rx="18" ry="12" fill="#FF8585"/>
+    </g>
+    
+    <!-- 猫耳朵 -->
+    <g class="wiggle" transform-origin="100 80">
+      <path d="M75 75 L65 45 L85 60 Z" fill="#FF6B6B"/>
+      <path d="M125 75 L135 45 L115 60 Z" fill="#FF6B6B"/>
+      <path d="M75 75 L70 55 L80 65 Z" fill="#FFB4B4"/>
+      <path d="M125 75 L130 55 L120 65 Z" fill="#FFB4B4"/>
+    </g>
+    
+    <!-- 龙虾钳子（举在猫脸两侧） -->
+    <g class="claw-wave" transform-origin="60 100">
+      <ellipse cx="55" cy="110" rx="20" ry="15" fill="#FF6B6B" transform="rotate(-20 55 110)"/>
+      <ellipse cx="45" cy="95" rx="12" ry="18" fill="#FF8585" transform="rotate(-30 45 95)"/>
+      <circle cx="42" cy="88" r="4" fill="#FFE5E5"/>
+    </g>
+    <g class="claw-wave" transform-origin="140 100" style="animation-delay: 0.75s;">
+      <ellipse cx="145" cy="110" rx="20" ry="15" fill="#FF6B6B" transform="rotate(20 145 110)"/>
+      <ellipse cx="155" cy="95" rx="12" ry="18" fill="#FF8585" transform="rotate(30 155 95)"/>
+      <circle cx="158" cy="88" r="4" fill="#FFE5E5"/>
+    </g>
+    
+    <!-- 猫头 -->
+    <ellipse cx="100" cy="95" rx="40" ry="35" fill="#FFF5F5" filter="url(#shadow)"/>
+    
+    <!-- 猫脸花纹 -->
+    <ellipse cx="100" cy="105" rx="25" ry="20" fill="#FFE5E5"/>
+    
+    <!-- 眼睛 -->
+    <g class="blink" transform-origin="85 90">
+      <ellipse cx="85" cy="90" rx="10" ry="12" fill="#2C3E50"/>
+      <circle cx="88" cy="87" r="4" fill="white"/>
+      <circle cx="86" cy="92" r="2" fill="white"/>
+    </g>
+    <g class="blink" transform-origin="115 90">
+      <ellipse cx="115" cy="90" rx="10" ry="12" fill="#2C3E50"/>
+      <circle cx="118" cy="87" r="4" fill="white"/>
+      <circle cx="116" cy="92" r="2" fill="white"/>
+    </g>
+    
+    <!-- 鼻子 -->
+    <path d="M95 105 L105 105 L100 112 Z" fill="#FF6B6B"/>
+    
+    <!-- 嘴巴 -->
+    <path d="M100 112 Q92 118 85 115" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M100 112 Q108 118 115 115" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+    <!-- 胡须 -->
+    <g stroke="#2C3E50" stroke-width="1.5" opacity="0.6">
+      <line x1="65" y1="100" x2="45" y2="95"/>
+      <line x1="65" y1="108" x2="42" y2="108"/>
+      <line x1="65" y1="116" x2="45" y2="121"/>
+      <line x1="135" y1="100" x2="155" y2="95"/>
+      <line x1="135" y1="108" x2="158" y2="108"/>
+      <line x1="135" y1="116" x2="155" y2="121"/>
+    </g>
+    
+    <!-- 龙虾触角 -->
+    <path d="M80 70 Q70 50 60 30" stroke="#FF6B6B" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M120 70 Q130 50 140 30" stroke="#FF6B6B" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="60" cy="30" r="4" fill="#FF8585"/>
+    <circle cx="140" cy="30" r="4" fill="#FF8585"/>
+    
+    <!-- 龙虾脚 -->
+    <g stroke="#FF6B6B" stroke-width="4" stroke-linecap="round">
+      <line x1="75" y1="140" x2="55" y2="155"/>
+      <line x1="85" y1="145" x2="70" y2="165"/>
+      <line x1="115" y1="145" x2="130" y2="165"/>
+      <line x1="125" y1="140" x2="145" y2="155"/>
+    </g>
+  </g>
+</svg>
