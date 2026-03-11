@@ -145,6 +145,19 @@
       height: 100%;
       border: none;
     }
+    /* 视频全屏模式 */
+    .video-fullscreen {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .video-fullscreen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body class="font-sans antialiased text-gray-800 dark:text-gray-200 transition-colors duration-300">
@@ -665,9 +678,13 @@
           viewer.innerHTML = '<div class="p-8 text-center text-gray-500"><i class="fas fa-exclamation-circle text-4xl mb-4"></i><p>内容加载失败，请稍后重试</p></div>';
         }
       } else if (currentDoc.type === 'video') {
-        // 加载视频
+        // 加载视频 - 隐藏目录，视频铺满
+        document.querySelector('.lg\\:col-span-1').style.display = 'none'; // 隐藏左侧目录
+        document.querySelector('.lg\\:col-span-2').classList.remove('lg\\:col-span-2');
+        document.querySelector('.lg\\:col-span-2').classList.add('lg\\:col-span-3'); // 内容区占3列
+        
         viewer.innerHTML = `
-          <div class="video-container">
+          <div class="video-fullscreen">
             <iframe src="${currentDoc.embedUrl}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
           </div>
           <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
