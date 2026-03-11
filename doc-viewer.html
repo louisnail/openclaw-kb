@@ -132,28 +132,38 @@
       background: transparent;
       padding: 0;
     }
-    /* 视频容器 */
+    /* 视频容器 - 确保16:9比例完整显示 */
     .video-container {
       width: 100%;
-      aspect-ratio: 16/9;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 比例 */
+      height: 0;
       background: #000;
       border-radius: 12px;
       overflow: hidden;
     }
     .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
     }
-    /* 视频全屏模式 */
+    /* 视频全屏模式 - 确保16:9比例完整显示 */
     .video-fullscreen {
       width: 100%;
-      aspect-ratio: 16/9;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 比例 */
+      height: 0;
       background: #000;
       border-radius: 12px;
       overflow: hidden;
     }
     .video-fullscreen iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
